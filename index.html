@@ -8,7 +8,6 @@
         /* Genel Stiller */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #c4bca3; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #4b4b4b; overflow: hidden; }
         
-        /* DÜZELTME: height: 100dvh eklendi (Mobil tarayıcı alt menü sorunu için) */
         .app-container { background-color: #e5deb8; width: 100%; max-width: 1000px; height: 100vh; height: 100dvh; border-radius: 0; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; display: flex; flex-direction: column; position: relative; }
         @media (min-width: 850px) { .app-container { height: 95vh; border-radius: 20px; } }
         
@@ -58,8 +57,12 @@
         .main-content { display: flex; flex-direction: column; padding: 10px; gap: 10px; flex: 1; overflow-y: auto; z-index: 2; position: relative; }
         @media (min-width: 850px) { .main-content { flex-direction: row; } }
         
-        .crossword-board { flex-shrink: 0; display: flex; justify-content: center; align-items: flex-start; overflow-x: auto; padding-bottom: 10px; }
-        .grid { display: grid; gap: 1px; background-color: rgba(75, 75, 75, 0.95); padding: 4px; border-radius: 8px; margin-top: 10px;}
+        /* DÜZELTME: Sola taşmayı engellemek için center yerine flex-start yapıldı */
+        .crossword-board { flex-shrink: 0; display: flex; justify-content: flex-start; align-items: flex-start; overflow-x: auto; padding: 5px 10px 15px 10px; }
+        
+        /* DÜZELTME: Ekrana sığdığı zamanlarda ortalanması için margin auto eklendi */
+        .grid { display: grid; gap: 1px; background-color: rgba(75, 75, 75, 0.95); padding: 4px; border-radius: 8px; margin: 0 auto; margin-top: 5px;}
+        
         .cell { width: 8vw; height: 8vw; max-width: 32px; max-height: 32px; background-color: white; border: 1.5px solid #cecece; border-radius: 3px; font-size: 15px; font-weight: bold; text-align: center; text-transform: uppercase; color: #4b4b4b; position: relative; outline: none; }
         .cell:focus { border-color: #1cb0f6; background-color: #ddf4ff; transform: scale(1.1); z-index: 5; }
         .cell.correct { background-color: #d7ffb8; color: #58a700; border-color: #58cc02; }
@@ -74,7 +77,7 @@
         .clue-list { list-style: none; padding: 0; margin: 0 0 15px 0; font-size: 13px; line-height: 1.4; }
         .clue-num { font-weight: bold; color: #f5a623; min-width: 18px; font-size: 14px; }
 
-        /* DÜZELTME: Butonun sıkışmasını engellemek için padding artırıldı */
+        /* Alt Kısım (Footer) */
         .footer { flex-shrink: 0; padding: 10px 15px 30px 15px; padding-bottom: calc(25px + env(safe-area-inset-bottom)); border-top: 2px solid #d1cbb0; display: flex; flex-direction: column; align-items: center; background: #fdfbf5; position: relative; z-index: 20; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); }
         .mic-btn { background-color: #ff4b4b; color: white; border: none; border-bottom: 4px solid #ea2b2b; border-radius: 50%; width: 55px; height: 55px; font-size: 22px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; margin-bottom: 8px; }
         .mic-btn:active { transform: translateY(4px); border-bottom-width: 0; }
