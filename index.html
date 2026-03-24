@@ -7,8 +7,11 @@
     <style>
         /* Genel Stiller */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #c4bca3; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #4b4b4b; overflow: hidden; }
-        .app-container { background-color: #e5deb8; width: 100%; max-width: 1000px; height: 100vh; border-radius: 0; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; display: flex; flex-direction: column; position: relative; }
+        
+        /* DÜZELTME: height: 100dvh eklendi (Mobil tarayıcı alt menü sorunu için) */
+        .app-container { background-color: #e5deb8; width: 100%; max-width: 1000px; height: 100vh; height: 100dvh; border-radius: 0; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; display: flex; flex-direction: column; position: relative; }
         @media (min-width: 850px) { .app-container { height: 95vh; border-radius: 20px; } }
+        
         .header { background-color: #2b7a0b; color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; border-bottom: 4px solid #1f5a08; z-index: 10; flex-shrink: 0; }
 
         /* Bildirim (Toast) Sistemi */
@@ -33,7 +36,6 @@
         #map-view::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(229, 222, 184, 0.4); z-index: 1; pointer-events: none; }
         .map-title { font-size: 18px; font-weight: bold; color: #1f5a08; margin-bottom: 30px; text-align: center; background: rgba(255,255,255,0.85); padding: 8px 15px; border-radius: 12px; z-index: 2; border: 1px solid #e5e5e5; }
         
-        /* DÜZELTME: Daireler ve İsimlerin Hizalanması */
         .level-node { width: 65px; height: 65px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 20px; font-weight: bold; color: white; position: relative; margin-bottom: 65px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 0 #c2821b; z-index: 2; }
         .level-name { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #4b4b4b; white-space: nowrap; background: rgba(255,255,255,0.95); padding: 5px 10px; border-radius: 10px; border: 1px solid #e5e5e5; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center;}
         .level-node:active { transform: scale(0.9) translateY(2px); box-shadow: 0 2px 0 #c2821b; }
@@ -51,7 +53,7 @@
         .node-completed { background-color: #58cc02; box-shadow: 0 4px 0 #58a700; }
         @keyframes bounce { 0%, 100% { transform: translateY(0) translateX(inherit); } 50% { transform: translateY(-8px) translateX(inherit); } }
 
-        /* BULMACA GÖRÜNÜMÜ - SABİT (STICKY) FOOTER İÇİN DÜZELTİLDİ */
+        /* BULMACA GÖRÜNÜMÜ */
         #puzzle-view { display: none; flex: 1; flex-direction: column; background-color: transparent; position: relative; overflow: hidden; }
         .main-content { display: flex; flex-direction: column; padding: 10px; gap: 10px; flex: 1; overflow-y: auto; z-index: 2; position: relative; }
         @media (min-width: 850px) { .main-content { flex-direction: row; } }
@@ -68,19 +70,21 @@
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-3px); } 50% { transform: translateX(3px); } 75% { transform: translateX(-3px); } }
 
         /* İpuçları Paneli */
-        .clues-panel { flex-shrink: 0; background-color: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; border: 2px solid #e5e5e5; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 2; margin-bottom: 20px;}
+        .clues-panel { flex-shrink: 0; background-color: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; border: 2px solid #e5e5e5; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 2; margin-bottom: 10px;}
         .clue-list { list-style: none; padding: 0; margin: 0 0 15px 0; font-size: 13px; line-height: 1.4; }
         .clue-num { font-weight: bold; color: #f5a623; min-width: 18px; font-size: 14px; }
 
-        /* DÜZELTME: SABİT ALT KISIM (FOOTER) */
-        .footer { flex-shrink: 0; padding: 10px 15px 15px 15px; border-top: 2px solid #d1cbb0; display: flex; flex-direction: column; align-items: center; background: #fdfbf5; position: relative; z-index: 20; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); }
+        /* DÜZELTME: Butonun sıkışmasını engellemek için padding artırıldı */
+        .footer { flex-shrink: 0; padding: 10px 15px 30px 15px; padding-bottom: calc(25px + env(safe-area-inset-bottom)); border-top: 2px solid #d1cbb0; display: flex; flex-direction: column; align-items: center; background: #fdfbf5; position: relative; z-index: 20; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); }
         .mic-btn { background-color: #ff4b4b; color: white; border: none; border-bottom: 4px solid #ea2b2b; border-radius: 50%; width: 55px; height: 55px; font-size: 22px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; margin-bottom: 8px; }
         .mic-btn:active { transform: translateY(4px); border-bottom-width: 0; }
         .mic-btn.listening { animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0.7); } 70% { box-shadow: 0 0 0 12px rgba(255, 75, 75, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0); } }
-        .mic-status { font-size: 12px; color: #666; font-weight: bold; background: white; padding: 4px 10px; border-radius: 8px; max-width: 100%; text-align: center; border: 1px solid #eee;}
-        .action-btn { background-color: #58cc02; color: white; border: none; border-radius: 10px; padding: 12px 30px; font-size: 18px; font-weight: bold; cursor: pointer; border-bottom: 4px solid #58a700; width: 100%; max-width: 300px; margin-top: 5px; display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; }
-        .action-btn:active { transform: translateY(4px); border-bottom-width: 0; margin-top: 9px; }
+        .mic-status { font-size: 12px; color: #666; font-weight: bold; background: white; padding: 4px 10px; border-radius: 8px; max-width: 100%; text-align: center; border: 1px solid #eee; margin-bottom: 5px;}
+        
+        .action-btn { background-color: #58cc02; color: white; border: none; border-radius: 10px; padding: 14px 30px; font-size: 18px; font-weight: bold; cursor: pointer; border-bottom: 4px solid #58a700; width: 100%; max-width: 300px; margin-top: 5px; margin-bottom: 10px; display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; }
+        .action-btn:active { transform: translateY(4px); border-bottom-width: 0; margin-top: 9px; margin-bottom: 14px; }
+        
         @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .close-btn { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.5); border: none; color: white; font-size: 16px; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; z-index: 20; display: none; }
 
@@ -297,7 +301,6 @@
         recognition.onend = () => { micBtn.classList.remove("listening"); };
         micBtn.onclick = () => { if(audioCtx.state === 'suspended') audioCtx.resume(); recognition.start(); };
     } else {
-        /* DÜZELTME: Tarayıcı desteklemiyorsa mikrofonu gizle ve mesaj ver */
         micBtn.style.display = 'none';
         micStatus.textContent = "Tarayıcın sesi desteklemiyor. Kutulara dokunarak yazabilirsin.";
     }
