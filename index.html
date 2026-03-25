@@ -4,21 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Barbaros'un 6. Sınıf Matematik Macerası</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        /* Genel Stiller */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #c4bca3; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #4b4b4b; overflow: hidden; }
+        /* Genel Stiller - Font değiştirildi, Arka plan canlandırıldı */
+        body { font-family: 'Nunito', sans-serif; background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #4b4b4b; overflow: hidden; }
         
-        .app-container { background-color: #e5deb8; width: 100%; max-width: 1000px; height: 100vh; height: 100dvh; border-radius: 0; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; display: flex; flex-direction: column; position: relative; }
-        @media (min-width: 850px) { .app-container { height: 95vh; border-radius: 20px; } }
+        .app-container { background-color: #f8fcf8; width: 100%; max-width: 1000px; height: 100vh; height: 100dvh; border-radius: 0; box-shadow: 0 15px 50px rgba(0,0,0,0.4); overflow: hidden; display: flex; flex-direction: column; position: relative; }
+        @media (min-width: 850px) { .app-container { height: 95vh; border-radius: 25px; border: 4px solid #fff; } }
         
-        .header { background-color: #2b7a0b; color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; border-bottom: 4px solid #1f5a08; z-index: 10; flex-shrink: 0; }
+        /* YENİ: Üst başlık daha oyunsu bir gradient ve gölgeye sahip */
+        .header { background: linear-gradient(90deg, #58cc02, #2b7a0b); color: white; padding: 18px; text-align: center; font-size: 22px; font-weight: 900; border-bottom: 4px solid #1f5a08; z-index: 10; flex-shrink: 0; text-shadow: 1px 2px 3px rgba(0,0,0,0.2); letter-spacing: 1px;}
 
         /* Bildirim (Toast) Sistemi */
         .toast-container { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; width: 90%; align-items: center;}
-        .toast { padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: bold; color: white; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center; }
+        .toast { padding: 12px 24px; border-radius: 12px; font-size: 16px; font-weight: 900; color: white; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center; }
         .toast.show { opacity: 1; transform: translateY(0); }
-        .toast.success { background-color: #58cc02; border-bottom: 3px solid #46a302; }
-        .toast.error { background-color: #ff4b4b; border-bottom: 3px solid #ea2b2b; }
+        .toast.success { background-color: #58cc02; border-bottom: 4px solid #46a302; }
+        .toast.error { background-color: #ff4b4b; border-bottom: 4px solid #ea2b2b; }
 
         /* DEKORATİF RESİMLER */
         .corner-decor { position: absolute; width: 120px; height: 120px; background-size: contain; background-repeat: no-repeat; background-position: center; z-index: 1; opacity: 0.35; pointer-events: none; }
@@ -30,77 +34,89 @@
         .decor-5 { bottom: 100px; left: 10px; }
         .decor-6 { bottom: 100px; right: 10px; }
 
-        /* HARİTA GÖRÜNÜMÜ (İLK EKRAN) */
+        /* HARİTA GÖRÜNÜMÜ */
         #map-view { flex: 1; overflow-y: auto; padding: 20px 10px 120px 10px; display: flex; flex-direction: column; align-items: center; background-image: url('8..jpg'); background-size: cover; background-position: center; position: relative; }
-        #map-view::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(229, 222, 184, 0.4); z-index: 1; pointer-events: none; }
-        .map-title { font-size: 18px; font-weight: bold; color: #1f5a08; margin-bottom: 30px; text-align: center; background: rgba(255,255,255,0.85); padding: 8px 15px; border-radius: 12px; z-index: 2; border: 1px solid #e5e5e5; }
+        #map-view::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 249, 230, 0.6); z-index: 1; pointer-events: none; }
+        .map-title { font-size: 20px; font-weight: 900; color: #1f5a08; margin-bottom: 35px; text-align: center; background: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 15px; z-index: 2; border: 2px solid #58cc02; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        .level-node { width: 65px; height: 65px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 20px; font-weight: bold; color: white; position: relative; margin-bottom: 65px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 0 #c2821b; z-index: 2; }
-        .level-name { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: bold; color: #4b4b4b; white-space: nowrap; background: rgba(255,255,255,0.95); padding: 5px 10px; border-radius: 10px; border: 1px solid #e5e5e5; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center;}
-        .level-node:active { transform: scale(0.9) translateY(2px); box-shadow: 0 2px 0 #c2821b; }
+        /* YENİ: Harita Node'larına 3D Beyaz Çerçeve eklendi */
+        .level-node { width: 70px; height: 70px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 24px; font-weight: 900; color: white; position: relative; margin-bottom: 65px; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 0 rgba(0,0,0,0.2); z-index: 2; border: 3px solid white;}
+        .level-name { position: absolute; top: calc(100% + 15px); left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 800; color: #4b4b4b; white-space: nowrap; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 12px; border: 2px solid #e5e5e5; box-shadow: 0 4px 8px rgba(0,0,0,0.15); text-align: center;}
+        .level-node:active { transform: scale(0.9) translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,0.2); }
         
-        .level-node:nth-child(odd) { transform: translateX(-30px); }
-        .level-node:nth-child(even) { transform: translateX(30px); }
+        .level-node:nth-child(odd) { transform: translateX(-35px); }
+        .level-node:nth-child(even) { transform: translateX(35px); }
         
-        .level-node::after { content: ''; position: absolute; top: 65px; width: 8px; height: 55px; background-color: #d1cbb0; z-index: -1; }
+        .level-node::after { content: ''; position: absolute; top: 65px; width: 10px; height: 55px; background-color: #d1cbb0; z-index: -1; border-radius: 5px;}
         .level-node:nth-child(odd)::after { left: 55%; transform: rotate(-15deg); transform-origin: top; }
         .level-node:nth-child(even)::after { right: 55%; transform: rotate(15deg); transform-origin: top; }
         .level-node:last-child::after { display: none; }
         
-        .node-locked { background-color: #dcd7c3; color: #afafaf; box-shadow: 0 4px 0 #c2bcab; }
-        .node-unlocked { background-color: #f5a623; animation: bounce 2s infinite; }
-        .node-completed { background-color: #58cc02; box-shadow: 0 4px 0 #58a700; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0) translateX(inherit); } 50% { transform: translateY(-8px) translateX(inherit); } }
+        .node-locked { background-color: #dcd7c3; color: #999; box-shadow: 0 5px 0 #b5b09f, 0 8px 10px rgba(0,0,0,0.1); border-color: #f0ede1;}
+        
+        /* YENİ: Unlocked (Sarı) bölüm için ışık yayma animasyonu */
+        .node-unlocked { background-color: #ffc800; animation: bounceGlow 2s infinite; border-color: white; color: #b26b00; text-shadow: 1px 1px 0 rgba(255,255,255,0.5);}
+        .node-completed { background-color: #58cc02; box-shadow: 0 5px 0 #46a302, 0 8px 10px rgba(0,0,0,0.1); }
+        
+        @keyframes bounceGlow { 
+            0%, 100% { transform: translateY(0) translateX(inherit); box-shadow: 0 5px 0 #d9aa00, 0 0 0 0 rgba(255, 200, 0, 0.7); } 
+            50% { transform: translateY(-10px) translateX(inherit); box-shadow: 0 5px 0 #d9aa00, 0 0 0 15px rgba(255, 200, 0, 0); } 
+        }
 
         /* BULMACA GÖRÜNÜMÜ */
         #puzzle-view { display: none; flex: 1; flex-direction: column; background-color: transparent; position: relative; overflow: hidden; }
-        .main-content { display: flex; flex-direction: column; padding: 10px; gap: 10px; flex: 1; overflow-y: auto; z-index: 2; position: relative; }
+        .main-content { display: flex; flex-direction: column; padding: 10px; gap: 15px; flex: 1; overflow-y: auto; z-index: 2; position: relative; }
         @media (min-width: 850px) { .main-content { flex-direction: row; } }
         
-        /* DÜZELTME: Sola taşmayı engellemek için center yerine flex-start yapıldı */
-        .crossword-board { flex-shrink: 0; display: flex; justify-content: flex-start; align-items: flex-start; overflow-x: auto; padding: 5px 10px 15px 10px; }
+        .crossword-board { flex-shrink: 0; display: flex; justify-content: flex-start; align-items: flex-start; overflow-x: auto; padding: 10px 10px 20px 10px; }
+        /* YENİ: Bulmaca tabanına gölge ve yuvarlaklık */
+        .grid { display: grid; gap: 2px; background-color: rgba(60, 60, 60, 0.9); padding: 6px; border-radius: 12px; margin: 0 auto; margin-top: 5px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);}
         
-        /* DÜZELTME: Ekrana sığdığı zamanlarda ortalanması için margin auto eklendi */
-        .grid { display: grid; gap: 1px; background-color: rgba(75, 75, 75, 0.95); padding: 4px; border-radius: 8px; margin: 0 auto; margin-top: 5px;}
+        .cell { width: 8vw; height: 8vw; max-width: 36px; max-height: 36px; background-color: white; border: none; border-radius: 6px; font-size: 18px; font-weight: 900; font-family: 'Nunito', sans-serif; text-align: center; text-transform: uppercase; color: #4b4b4b; position: relative; outline: none; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1); transition: transform 0.1s;}
+        .cell:focus { background-color: #ddf4ff; transform: scale(1.15); z-index: 5; box-shadow: 0 5px 15px rgba(28, 176, 246, 0.4), inset 0 -3px 0 rgba(0,0,0,0.1); color: #1cb0f6;}
+        .cell.correct { background-color: #58cc02; color: white; box-shadow: inset 0 -3px 0 #46a302; animation: popIn 0.3s; }
+        .cell.wrong { background-color: #ff4b4b; color: white; box-shadow: inset 0 -3px 0 #ea2b2b; animation: shake 0.3s; }
+        .cell.hint-cell { background-color: #e2f5d1; color: #1f5a08; box-shadow: inset 0 -3px 0 #c2e0a3; cursor: not-allowed; }
+        .empty-cell { width: calc(8vw + 2px); height: calc(8vw + 2px); max-width: 38px; max-height: 38px; background-color: transparent; }
         
-        .cell { width: 8vw; height: 8vw; max-width: 32px; max-height: 32px; background-color: white; border: 1.5px solid #cecece; border-radius: 3px; font-size: 15px; font-weight: bold; text-align: center; text-transform: uppercase; color: #4b4b4b; position: relative; outline: none; }
-        .cell:focus { border-color: #1cb0f6; background-color: #ddf4ff; transform: scale(1.1); z-index: 5; }
-        .cell.correct { background-color: #d7ffb8; color: #58a700; border-color: #58cc02; }
-        .cell.wrong { background-color: #ffdfe0; color: #ea2b2b; border-color: #ff4b4b; animation: shake 0.3s; }
-        .cell.hint-cell { background-color: #e2f5d1; color: #1f5a08; border-color: #8bd450; cursor: not-allowed; }
-        .empty-cell { width: calc(8vw + 2px); height: calc(8vw + 2px); max-width: 34px; max-height: 34px; background-color: transparent; }
-        .cell-number { position: absolute; top: 0px; left: 2px; font-size: 10px; font-weight: bold; color: #1cb0f6; line-height: 1; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-3px); } 50% { transform: translateX(3px); } 75% { transform: translateX(-3px); } }
+        .cell-number { position: absolute; top: 2px; left: 4px; font-size: 11px; font-weight: 900; color: #1cb0f6; line-height: 1; text-shadow: 1px 1px 0 white;}
+        .cell.correct .cell-number, .cell.wrong .cell-number { color: white; text-shadow: none; opacity: 0.7;}
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 50% { transform: translateX(4px); } 75% { transform: translateX(-4px); } }
 
-        /* İpuçları Paneli */
-        .clues-panel { flex-shrink: 0; background-color: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; border: 2px solid #e5e5e5; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 2; margin-bottom: 10px;}
-        .clue-list { list-style: none; padding: 0; margin: 0 0 15px 0; font-size: 13px; line-height: 1.4; }
-        .clue-num { font-weight: bold; color: #f5a623; min-width: 18px; font-size: 14px; }
+        /* İpuçları Paneli - Daha modern */
+        .clues-panel { flex-shrink: 0; background-color: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); z-index: 2; margin-bottom: 10px;}
+        .clue-list { list-style: none; padding: 0; margin: 0 0 15px 0; font-size: 15px; line-height: 1.5; color: #555;}
+        .clue-num { font-weight: 900; color: #1cb0f6; min-width: 20px; font-size: 16px; background: #ddf4ff; padding: 2px 8px; border-radius: 8px; margin-right: 5px;}
 
         /* Alt Kısım (Footer) */
-        .footer { flex-shrink: 0; padding: 10px 15px 30px 15px; padding-bottom: calc(25px + env(safe-area-inset-bottom)); border-top: 2px solid #d1cbb0; display: flex; flex-direction: column; align-items: center; background: #fdfbf5; position: relative; z-index: 20; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); }
-        .mic-btn { background-color: #ff4b4b; color: white; border: none; border-bottom: 4px solid #ea2b2b; border-radius: 50%; width: 55px; height: 55px; font-size: 22px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; margin-bottom: 8px; }
-        .mic-btn:active { transform: translateY(4px); border-bottom-width: 0; }
-        .mic-btn.listening { animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0.7); } 70% { box-shadow: 0 0 0 12px rgba(255, 75, 75, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0); } }
-        .mic-status { font-size: 12px; color: #666; font-weight: bold; background: white; padding: 4px 10px; border-radius: 8px; max-width: 100%; text-align: center; border: 1px solid #eee; margin-bottom: 5px;}
+        .footer { flex-shrink: 0; padding: 15px 15px 30px 15px; padding-bottom: calc(25px + env(safe-area-inset-bottom)); border-top: 2px solid #e5e5e5; display: flex; flex-direction: column; align-items: center; background: white; position: relative; z-index: 20; box-shadow: 0 -10px 20px rgba(0,0,0,0.05); }
         
-        .action-btn { background-color: #58cc02; color: white; border: none; border-radius: 10px; padding: 14px 30px; font-size: 18px; font-weight: bold; cursor: pointer; border-bottom: 4px solid #58a700; width: 100%; max-width: 300px; margin-top: 5px; margin-bottom: 10px; display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; }
-        .action-btn:active { transform: translateY(4px); border-bottom-width: 0; margin-top: 9px; margin-bottom: 14px; }
+        /* YENİ: Mikrofon daha gösterişli */
+        .mic-btn { background: linear-gradient(180deg, #ff4b4b, #ea2b2b); color: white; border: none; border-radius: 50%; width: 65px; height: 65px; font-size: 26px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; margin-bottom: 10px; box-shadow: 0 5px 0 #cc1a1a, 0 8px 15px rgba(234, 43, 43, 0.4);}
+        .mic-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #cc1a1a; }
+        .mic-btn.listening { animation: pulseMic 1.5s infinite; background: linear-gradient(180deg, #ff7b7b, #ff4b4b);}
+        @keyframes pulseMic { 0% { box-shadow: 0 5px 0 #cc1a1a, 0 0 0 0 rgba(255, 75, 75, 0.7); } 70% { box-shadow: 0 5px 0 #cc1a1a, 0 0 0 15px rgba(255, 75, 75, 0); } 100% { box-shadow: 0 5px 0 #cc1a1a, 0 0 0 0 rgba(255, 75, 75, 0); } }
         
-        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .close-btn { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.5); border: none; color: white; font-size: 16px; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; z-index: 20; display: none; }
+        .mic-status { font-size: 13px; color: #888; font-weight: 800; background: #f7f7f7; padding: 6px 15px; border-radius: 12px; max-width: 100%; text-align: center; margin-bottom: 5px;}
+        
+        /* YENİ: Haritaya Dön butonu 3D Duolingo stili */
+        .action-btn { background: #58cc02; color: white; border: none; border-radius: 15px; padding: 16px 30px; font-size: 20px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; box-shadow: 0 5px 0 #46a302; width: 100%; max-width: 350px; margin-top: 5px; margin-bottom: 10px; display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; letter-spacing: 0.5px;}
+        .action-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #46a302; margin-bottom: 15px;}
+        
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .close-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.3); border: none; color: white; font-size: 18px; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; z-index: 20; display: none; transition: background 0.2s;}
+        .close-btn:active { background: rgba(0,0,0,0.6); transform: scale(0.9);}
 
         /* SERTİFİKA EKRANI */
         #certificate-view { display: none; flex: 1; background-image: url('image_4.png'); background-position: center; background-size: contain; background-repeat: no-repeat; position: relative; overflow: hidden; background-color: #e5deb8; }
-        .confetti { position: absolute; width: 8px; height: 8px; background-color: #f0f0f0; animation: fall linear infinite; z-index: 5; }
+        .confetti { position: absolute; width: 10px; height: 10px; border-radius: 3px; background-color: #f0f0f0; animation: fall linear infinite; z-index: 5; }
         @keyframes fall { to { transform: translateY(100vh) rotate(720deg); } }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <div class="header" id="header-title">Barbaros'un Macerası</div>
+    <div class="header" id="header-title">🗺️ Barbaros'un Macerası</div>
     <button class="close-btn" id="close-btn" onclick="backToMap()">✖</button>
     <div class="toast-container" id="toast-container"></div>
 
@@ -342,7 +358,7 @@
         applyCornerDecorations('puzzle-view');
 
         document.getElementById('close-btn').style.display = 'block';
-        headerTitle.textContent = (currentLevelIndex + 1) + ". " + levels[currentLevelIndex].title;
+        headerTitle.textContent = "✨ " + levels[currentLevelIndex].title;
         nextMapBtn.style.display = 'none';
         
         if (SpeechRecognition) {
@@ -357,7 +373,7 @@
         puzzleView.style.display = 'none'; 
         mapView.style.display = 'flex'; 
         document.getElementById('close-btn').style.display = 'none'; 
-        headerTitle.textContent = "Barbaros'un Macerası"; 
+        headerTitle.textContent = "🗺️ Barbaros'un Macerası"; 
         
         applyCornerDecorations('map-view');
         updateMapUI();
@@ -416,7 +432,7 @@
         document.getElementById('across-clues').innerHTML = '<strong>Soldan Sağa ➡️</strong>';
         document.getElementById('down-clues').innerHTML = '<strong>Yukarıdan Aşağıya ⬇️</strong>';
         levelData.words.forEach(item => {
-            const li = document.createElement('li'); li.innerHTML = `<span class="clue-num">${item.id}.</span> <span>${item.clue}</span>`;
+            const li = document.createElement('li'); li.innerHTML = `<span class="clue-num">${item.id}</span> <span>${item.clue}</span>`;
             if (item.dir === 'H') document.getElementById('across-clues').appendChild(li); else document.getElementById('down-clues').appendChild(li);
         });
         evaluateBoard(true); 
@@ -521,11 +537,11 @@
     }
 
     function showCertificate() {
-        document.getElementById('close-btn').style.display = 'none'; puzzleView.style.display = 'none'; mapView.style.display = 'none'; certView.style.display = 'flex'; headerTitle.textContent = "Zafer!"; createConfetti();
+        document.getElementById('close-btn').style.display = 'none'; puzzleView.style.display = 'none'; mapView.style.display = 'none'; certView.style.display = 'flex'; headerTitle.textContent = "🏆 Büyük Zafer!"; createConfetti();
     }
 
     function createConfetti() {
-        const colors = ['#f5a623', '#58cc02', '#1cb0f6', '#ff4b4b', '#fff'];
+        const colors = ['#f5a623', '#58cc02', '#1cb0f6', '#ff4b4b', '#e0c3fc', '#8ec5fc'];
         for (let i = 0; i < 150; i++) {
             let conf = document.createElement('div'); conf.classList.add('confetti'); conf.style.left = Math.random() * 100 + 'vw'; conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; conf.style.animationDuration = (Math.random() * 3 + 2) + 's'; conf.style.animationDelay = (Math.random() * 2) + 's'; certView.appendChild(conf);
         }
