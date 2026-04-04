@@ -14,9 +14,18 @@
         .app-container { background-color: #f8fcf8; width: 100%; max-width: 1000px; height: 100vh; height: 100dvh; border-radius: 0; box-shadow: 0 15px 50px rgba(0,0,0,0.4); overflow: hidden; display: flex; flex-direction: column; position: relative; }
         @media (min-width: 850px) { .app-container { height: 95vh; border-radius: 25px; border: 4px solid #fff; } }
         
-        .header { background: linear-gradient(90deg, #58cc02, #2b7a0b); color: white; padding: 18px; text-align: center; font-size: 22px; font-weight: 900; border-bottom: 4px solid #1f5a08; z-index: 10; flex-shrink: 0; text-shadow: 1px 2px 3px rgba(0,0,0,0.2); letter-spacing: 1px;}
+        .header { background: linear-gradient(90deg, #58cc02, #2b7a0b); color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: 900; border-bottom: 4px solid #1f5a08; z-index: 10; flex-shrink: 0; text-shadow: 1px 2px 3px rgba(0,0,0,0.2); letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 
-        /* Bildirim (Toast) Sistemi */
+        /* YENİ: Giriş (Login) Ekranı */
+        #login-view { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: center; background-image: url('8..jpg'); background-size: cover; background-position: center; position: relative; z-index: 30; }
+        #login-view::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(229, 222, 184, 0.8); z-index: 1; pointer-events: none; }
+        .login-card { background: white; padding: 30px 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; width: 85%; max-width: 400px; z-index: 2; border: 3px solid #58cc02; animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .login-card h2 { color: #1f5a08; margin-top: 0; font-size: 24px; }
+        .login-card p { font-size: 15px; color: #666; margin-bottom: 20px; }
+        .login-input { width: 80%; padding: 15px; margin-bottom: 20px; border: 2px solid #e5e5e5; border-radius: 12px; font-size: 18px; font-family: 'Nunito', sans-serif; text-align: center; font-weight: bold; color: #333; transition: all 0.3s;}
+        .login-input:focus { outline: none; border-color: #1cb0f6; box-shadow: 0 0 0 4px rgba(28, 176, 246, 0.2); }
+
+        /* Bildirim Sistemi */
         .toast-container { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; width: 90%; align-items: center;}
         .toast { padding: 12px 24px; border-radius: 12px; font-size: 16px; font-weight: 900; color: white; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center; }
         .toast.show { opacity: 1; transform: translateY(0); }
@@ -24,24 +33,23 @@
         .toast.error { background-color: #ff4b4b; border-bottom: 4px solid #ea2b2b; }
 
         /* DEKORATİF RESİMLER */
-        .corner-decor { position: absolute; width: 120px; height: 120px; background-size: contain; background-repeat: no-repeat; background-position: center; z-index: 1; opacity: 0.35; pointer-events: none; }
-        @media (max-width: 600px) { .corner-decor { width: 80px; height: 80px; opacity: 0.25; } }
+        .corner-decor { position: absolute; width: 120px; height: 120px; background-size: contain; background-repeat: no-repeat; background-position: center; z-index: 1; opacity: 0.95; pointer-events: none; }
+        @media (max-width: 600px) { .corner-decor { width: 80px; height: 80px; opacity: 0.8; } }
         .decor-1 { top: 15px; left: 10px; }
         .decor-2 { top: 15px; right: 10px; }
-        .decor-3 { top: 40%; left: -10px; }
-        .decor-4 { top: 40%; right: -10px; }
+        .decor-3 { top: 55%; left: -10px; }
+        .decor-4 { top: 55%; right: -10px; }
         .decor-5 { bottom: 100px; left: 10px; }
         .decor-6 { bottom: 100px; right: 10px; }
 
         /* HARİTA GÖRÜNÜMÜ */
-        #map-view { flex: 1; overflow-y: auto; padding: 20px 10px 120px 10px; display: flex; flex-direction: column; align-items: center; background-image: url('8..jpg'); background-size: cover; background-position: center; position: relative; }
+        #map-view { display: none; flex: 1; overflow-y: auto; padding: 20px 10px 120px 10px; flex-direction: column; align-items: center; background-image: url('8..jpg'); background-size: cover; background-position: center; position: relative; }
         #map-view::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 249, 230, 0.6); z-index: 1; pointer-events: none; }
         .map-title { font-size: 20px; font-weight: 900; color: #1f5a08; margin-bottom: 35px; text-align: center; background: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 15px; z-index: 2; border: 2px solid #58cc02; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
         .level-node { width: 70px; height: 70px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 24px; font-weight: 900; color: white; position: relative; margin-bottom: 75px; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 0 rgba(0,0,0,0.2); z-index: 2; border: 3px solid white;}
         .level-name { position: absolute; top: calc(100% + 15px); left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 800; color: #4b4b4b; white-space: nowrap; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 12px; border: 2px solid #e5e5e5; box-shadow: 0 4px 8px rgba(0,0,0,0.15); text-align: center;}
         
-        /* YENİ: Yıldızlar Konteyneri */
         .node-stars { position: absolute; bottom: -18px; font-size: 14px; letter-spacing: -2px; display: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); z-index: 5; background: rgba(255,255,255,0.8); border-radius: 10px; padding: 1px 6px; border: 1px solid #ddd;}
         .node-completed .node-stars { display: block; }
 
@@ -66,14 +74,13 @@
         /* BULMACA GÖRÜNÜMÜ */
         #puzzle-view { display: none; flex: 1; flex-direction: column; background-color: transparent; position: relative; overflow: hidden; }
         
-        /* YENİ: İlerleme Çubuğu (Progress Bar) */
         .progress-container { width: 90%; max-width: 600px; height: 16px; background: rgba(255,255,255,0.8); border-radius: 10px; margin: 10px auto 0 auto; border: 2px solid #ddd; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; z-index: 5; flex-shrink: 0;}
         .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ffc800, #ff9500); transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1); }
 
         .main-content { display: flex; flex-direction: column; padding: 10px; gap: 15px; flex: 1; overflow-y: auto; z-index: 2; position: relative; }
         @media (min-width: 850px) { .main-content { flex-direction: row; } }
         
-        .crossword-board { flex-shrink: 0; display: flex; justify-content: flex-start; align-items: flex-start; overflow-x: auto; padding: 5px 10px 20px 10px; }
+        .crossword-board { flex-shrink: 0; display: flex; justify-content: flex-start; align-items: flex-start; overflow-x: auto; padding: 5px 10px 20px 10px; z-index: 3;}
         
         .grid { display: grid; gap: 2px; background-color: rgba(60, 60, 60, 0.9); padding: 6px; border-radius: 12px; margin: 0 auto; margin-top: 5px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);}
         
@@ -88,19 +95,16 @@
         .cell.correct .cell-number, .cell.wrong .cell-number { color: white; text-shadow: none; opacity: 0.7;}
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 50% { transform: translateX(4px); } 75% { transform: translateX(-4px); } }
 
-        /* YENİ: Hücrelerden fışkıran mini yıldızlar */
         .sparkle-particle { position: absolute; pointer-events: none; font-size: 16px; animation: flySparkle 1s ease-out forwards; z-index: 10; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         @keyframes flySparkle { 0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5) rotate(180deg); opacity: 0; } }
 
-        /* İpuçları Paneli */
-        .clues-panel { flex-shrink: 0; background-color: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); z-index: 2; margin-bottom: 10px;}
+        .clues-panel { flex-shrink: 0; background-color: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); z-index: 3; margin-bottom: 10px;}
         .clue-list { list-style: none; padding: 0; margin: 0 0 15px 0; font-size: 15px; line-height: 1.5; color: #555;}
         .clue-num { font-weight: 900; color: #1cb0f6; min-width: 20px; font-size: 16px; background: #ddf4ff; padding: 2px 8px; border-radius: 8px; margin-right: 5px;}
 
         /* Alt Kısım (Footer) */
         .footer { flex-shrink: 0; padding: 10px 15px 25px 15px; padding-bottom: calc(15px + env(safe-area-inset-bottom)); border-top: 2px solid #e5e5e5; display: flex; flex-direction: column; align-items: center; background: white; position: relative; z-index: 20; box-shadow: 0 -10px 20px rgba(0,0,0,0.05); }
         
-        /* YENİ: Maskot Alanı */
         .mascot-area { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 10px; width: 100%; max-width: 350px;}
         .mascot-icon { font-size: 40px; animation: floatMascot 3s ease-in-out infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
         .mascot-bubble { background: #f0f0f0; padding: 8px 15px; border-radius: 15px; font-size: 14px; font-weight: 800; color: #444; position: relative; border: 2px solid #ddd; box-shadow: 0 4px 0 #ddd;}
@@ -117,15 +121,30 @@
         .mic-btn.listening { animation: pulseMic 1.5s infinite; background: linear-gradient(180deg, #ff7b7b, #ff4b4b);}
         @keyframes pulseMic { 0% { box-shadow: 0 5px 0 #cc1a1a, 0 0 0 0 rgba(255, 75, 75, 0.7); } 70% { box-shadow: 0 5px 0 #cc1a1a, 0 0 0 15px rgba(255, 75, 75, 0); } 100% { box-shadow: 0 5px 0 #cc1a1a, 0 0 0 0 rgba(255, 75, 75, 0); } }
         
-        .action-btn { background: #58cc02; color: white; border: none; border-radius: 15px; padding: 16px 30px; font-size: 20px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; box-shadow: 0 5px 0 #46a302; width: 100%; max-width: 350px; margin-top: 5px; margin-bottom: 5px; display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; letter-spacing: 0.5px;}
+        .action-btn { background: #58cc02; color: white; border: none; border-radius: 15px; padding: 16px 30px; font-size: 18px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; box-shadow: 0 5px 0 #46a302; width: 100%; max-width: 350px; margin-top: 5px; margin-bottom: 5px; display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; letter-spacing: 0.5px;}
         .action-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #46a302; margin-bottom: 10px;}
         
         @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .close-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.3); border: none; color: white; font-size: 18px; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; z-index: 20; display: none; transition: background 0.2s;}
         .close-btn:active { background: rgba(0,0,0,0.6); transform: scale(0.9);}
 
-        /* SERTİFİKA EKRANI */
-        #certificate-view { display: none; flex: 1; background-image: url('image_4.png'); background-position: center; background-size: contain; background-repeat: no-repeat; position: relative; overflow: hidden; background-color: #e5deb8; }
+        /* SERTİFİKA VE İSTATİSTİK EKRANI */
+        #certificate-view { display: none; flex: 1; flex-direction: column; align-items: center; background-image: url('image_4.png'); background-position: center; background-size: cover; position: relative; overflow-y: auto; background-color: #e5deb8; padding: 20px;}
+        .cert-card { background: rgba(255,255,255,0.95); padding: 30px 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; width: 100%; max-width: 500px; z-index: 10; margin-top: 20px; border: 4px solid #f5a623;}
+        .cert-card h1 { color: #f5a623; margin: 0 0 10px 0; font-size: 28px; text-shadow: 1px 1px 0px rgba(0,0,0,0.1);}
+        .cert-card h3 { color: #2b7a0b; margin: 0 0 20px 0; font-size: 20px; }
+        
+        /* Analiz Tablosu */
+        .stats-container { background: #fff; border-radius: 12px; padding: 15px; border: 2px solid #eee; margin-bottom: 20px; text-align: left;}
+        .stats-title { font-weight: 900; color: #4b4b4b; margin-bottom: 10px; text-align: center; border-bottom: 2px dashed #eee; padding-bottom: 10px;}
+        .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px;}
+        .stat-row:last-child { border-bottom: none; }
+        .stat-cat { font-weight: 700; color: #555; flex: 2;}
+        .stat-val { font-weight: 900; padding: 4px 10px; border-radius: 8px; flex: 1; text-align: center;}
+        .val-good { background: #d7ffb8; color: #2b7a0b; }
+        .val-warn { background: #fff4e5; color: #d9aa00; }
+        .val-bad { background: #ffdfe0; color: #ea2b2b; }
+
         .confetti { position: absolute; width: 10px; height: 10px; border-radius: 3px; background-color: #f0f0f0; animation: fall linear infinite; z-index: 5; }
         @keyframes fall { to { transform: translateY(100vh) rotate(720deg); } }
     </style>
@@ -136,6 +155,15 @@
     <div class="header" id="header-title">🗺️ Barbaros'un Macerası</div>
     <button class="close-btn" id="close-btn" onclick="backToMap()">✖</button>
     <div class="toast-container" id="toast-container"></div>
+
+    <div id="login-view">
+        <div class="login-card">
+            <h2>🎓 Maceraya Katıl!</h2>
+            <p>Oyun boyunca gelişimini takip edebilmemiz için lütfen adını ve soyadını yaz.</p>
+            <input type="text" id="student-name-input" class="login-input" placeholder="Adın ve Soyadın" autocomplete="off">
+            <button class="action-btn" style="display: inline-block;" onclick="loginStudent()">Oyuna Başla 🚀</button>
+        </div>
+    </div>
 
     <div id="map-view">
         <div class="map-title">Sarmal Matematik Serüveni</div>
@@ -167,10 +195,38 @@
         </div>
     </div>
 
-    <div id="certificate-view"></div>
+    <div id="certificate-view">
+        <div class="cert-card">
+            <h1>🏆 TEBRİKLER!</h1>
+            <h3 id="cert-student-name">Öğrenci Adı</h3>
+            <p>Macerayı başarıyla tamamladın. İşte konulara göre hata analizin:</p>
+            
+            <div class="stats-container">
+                <div class="stats-title">📊 Konu Analizi (Hata Oranı)</div>
+                <div id="stats-list">
+                    </div>
+            </div>
+            
+            <button class="action-btn" style="display: inline-block; background: #1cb0f6; border-color: #1693d1; box-shadow: 0 5px 0 #1693d1;" onclick="downloadReport()">📥 Raporu Telefonuma İndir</button>
+        </div>
+    </div>
 </div>
 
 <script>
+    // --- ÖĞRENCİ VERİLERİ VE İSTATİSTİKLER ---
+    let studentName = "";
+    let wordMistakes = {}; // Hangi kelimede hata yapıldı? Örn: {"KATSAYI": true}
+    
+    // Konu Sınıflandırmaları eklendi (Kategori Kısaltmaları)
+    // S: Sayılar, C: Cebir, G: Geometri, V: Veri, K: Kümeler
+    const categories = {
+        'S': 'Sayılar ve İşlemler',
+        'C': 'Cebir',
+        'G': 'Geometri ve Ölçme',
+        'V': 'Veri İşleme',
+        'K': 'Kümeler'
+    };
+
     const userImages = [
         '1..jpg', '2..jpg', '3..jpg', '4..jpg', '5..jpg', '6..jpg', '8..jpg', '10..jpg'
     ];
@@ -188,67 +244,68 @@
             availableImages.splice(randIdx, 1);
             
             const decorDiv = document.createElement('div');
-            decorDiv.className = corner-decor ${positions[i]};
-            decorDiv.style.backgroundImage = url('${selectedImg}');
-            decorDiv.style.transform = rotate(${Math.floor(Math.random() * 40) - 20}deg);
+            decorDiv.className = `corner-decor ${positions[i]}`;
+            decorDiv.style.backgroundImage = `url('${selectedImg}')`;
+            decorDiv.style.transform = `rotate(${Math.floor(Math.random() * 40) - 20}deg)`;
             view.appendChild(decorDiv);
         }
     }
 
+    // Kelimelere kategorileri ('cat') eklendi
     const levels = [
         { title: "Gizemli Başlangıç", gridSize: 13, hints: [{row: 2, col: 7}], words: [
-                { id: 1, dir: 'H', word: 'KATSAYI', clue: 'Alınan ürünün fiyatı gibi, cebirsel ifadede değişkenin önündeki sayıya ne denir?', row: 4, col: 4 },
-                { id: 2, dir: 'V', word: 'ÇARPAN', clue: 'Bir yapbozun parçaları gibi, bir sayıyı kalansız bölebilen sayılara matematikte ne denir?', row: 0, col: 8 },
-                { id: 3, dir: 'V', word: 'ASAL', clue: 'Sadece 1\'e ve kendisine kalansız bölünebilen özel sayılara ne ad verilir?', row: 4, col: 5 },
-                { id: 4, dir: 'H', word: 'ORAN', clue: 'Kızların sayısını erkeklere bölmek gibi, iki çokluğun bölünerek karşılaştırılmasına ne ad verilir?', row: 6, col: 3 },
-                { id: 5, dir: 'V', word: 'DOĞRU', clue: 'Her iki yönden de sonsuza kadar uzayan düz çizgi modeline geometride ne denir?', row: 5, col: 3 },
-                { id: 6, dir: 'H', word: 'BİRİM', clue: 'Eşit parçalara ayrılmış bir bütünün sadece 1 dilimini gösteren kesre ne denir?', row: 2, col: 6 }
+                { id: 1, dir: 'H', word: 'KATSAYI', cat: 'C', clue: 'Alınan ürünün fiyatı gibi, cebirsel ifadede değişkenin önündeki sayıya ne denir?', row: 4, col: 4 },
+                { id: 2, dir: 'V', word: 'ÇARPAN', cat: 'S', clue: 'Bir yapbozun parçaları gibi, bir sayıyı kalansız bölebilen sayılara matematikte ne denir?', row: 0, col: 8 },
+                { id: 3, dir: 'V', word: 'ASAL', cat: 'S', clue: 'Sadece 1\'e ve kendisine kalansız bölünebilen özel sayılara ne ad verilir?', row: 4, col: 5 },
+                { id: 4, dir: 'H', word: 'ORAN', cat: 'S', clue: 'Kızların sayısını erkeklere bölmek gibi, iki çokluğun bölünerek karşılaştırılmasına ne ad verilir?', row: 6, col: 3 },
+                { id: 5, dir: 'V', word: 'DOĞRU', cat: 'G', clue: 'Her iki yönden de sonsuza kadar uzayan düz çizgi modeline geometride ne denir?', row: 5, col: 3 },
+                { id: 6, dir: 'H', word: 'BİRİM', cat: 'S', clue: 'Eşit parçalara ayrılmış bir bütünün sadece 1 dilimini gösteren kesre ne denir?', row: 2, col: 6 }
             ]},
         { title: "Fısıldayan Orman", gridSize: 14, hints: [{row: 7, col: 10}], words: [
-                { id: 1, dir: 'V', word: 'DEĞİŞKEN', clue: 'Hava sıcaklığı gibi, cebirsel ifadelerde yerine farklı sayılar yazılabilen harflere ne denir?', row: 2, col: 4 },
-                { id: 2, dir: 'H', word: 'CEBİR', clue: 'İçinde harf ve işlem barındıran ifadelere matematikte genel olarak ne ad verilir?', row: 3, col: 3 },
-                { id: 3, dir: 'V', word: 'TERS', clue: 'Kesişen iki doğrunun oluşturduğu, köşeleri ortak ama yönleri tam zıt olan açılara ne denir?', row: 1, col: 7 },
-                { id: 4, dir: 'H', word: 'DİK', clue: 'Yere dikilen bir direğin zeminle oluşturduğu, ölçüsü tam 90 derece olan bu açıya ne denir?', row: 5, col: 3 },
-                { id: 5, dir: 'H', word: 'KÜP', clue: 'Tüm yüzeyleri birbirine eşit olan oyun zarı şeklindeki o özel cisme ne ad verilir?', row: 7, col: 4 },
-                { id: 6, dir: 'V', word: 'PRİZMA', clue: 'Alt ve üst tabanları birbirine paralel çokgenlerden oluşan üç boyutlu cisimlere ne denir?', row: 7, col: 6 }
+                { id: 1, dir: 'V', word: 'DEĞİŞKEN', cat: 'C', clue: 'Hava sıcaklığı gibi, cebirsel ifadelerde yerine farklı sayılar yazılabilen harflere ne denir?', row: 2, col: 4 },
+                { id: 2, dir: 'H', word: 'CEBİR', cat: 'C', clue: 'İçinde harf ve işlem barındıran ifadelere matematikte genel olarak ne ad verilir?', row: 3, col: 3 },
+                { id: 3, dir: 'V', word: 'TERS', cat: 'G', clue: 'Kesişen iki doğrunun oluşturduğu, köşeleri ortak ama yönleri tam zıt olan açılara ne denir?', row: 1, col: 7 },
+                { id: 4, dir: 'H', word: 'DİK', cat: 'G', clue: 'Yere dikilen bir direğin zeminle oluşturduğu, ölçüsü tam 90 derece olan bu açıya ne denir?', row: 5, col: 3 },
+                { id: 5, dir: 'H', word: 'KÜP', cat: 'G', clue: 'Tüm yüzeyleri birbirine eşit olan oyun zarı şeklindeki o özel cisme ne ad verilir?', row: 7, col: 4 },
+                { id: 6, dir: 'V', word: 'PRİZMA', cat: 'G', clue: 'Alt ve üst tabanları birbirine paralel çokgenlerden oluşan üç boyutlu cisimlere ne denir?', row: 7, col: 6 }
             ]},
         { title: "Kayıp Vadi", gridSize: 13, hints: [{row: 9, col: 6}], words: [
-                { id: 1, dir: 'H', word: 'BÜTÜNLER', clue: 'Yan yana geldiklerinde ölçüleri toplamı tam bir doğru açı (180 derece) eden iki açıya ne denir?', row: 4, col: 2 },
-                { id: 2, dir: 'V', word: 'KÜME', clue: 'Aynı özelliği taşıyan varlıkların oluşturduğu iyi tanımlanmış matematiksel topluluğa ne denir?', row: 3, col: 3 },
-                { id: 3, dir: 'V', word: 'NEGATİF', clue: 'Deniz seviyesinin altını göstermek için kullandığımız, eksi işaretli tam sayılara ne ad verilir?', row: 4, col: 6 },
-                { id: 4, dir: 'V', word: 'VERİ', clue: 'Bir araştırma sorusu sonucunda toplanan ham bilgilerin her birine ne denir?', row: 3, col: 8 },
-                { id: 5, dir: 'H', word: 'HACİM', clue: 'Bir havuzun veya deponun uzayda (boşlukta) kapladığı o toplam yere ne ad verilir?', row: 9, col: 3 },
-                { id: 6, dir: 'V', word: 'ÇAP', clue: 'Çemberin bir kıyısından girip tam merkezinden geçerek diğer kıyıya ulaşan en uzun çizgiye ne denir?', row: 8, col: 4 }
+                { id: 1, dir: 'H', word: 'BÜTÜNLER', cat: 'G', clue: 'Yan yana geldiklerinde ölçüleri toplamı tam bir doğru açı (180 derece) eden iki açıya ne denir?', row: 4, col: 2 },
+                { id: 2, dir: 'V', word: 'KÜME', cat: 'K', clue: 'Aynı özelliği taşıyan varlıkların oluşturduğu iyi tanımlanmış matematiksel topluluğa ne denir?', row: 3, col: 3 },
+                { id: 3, dir: 'V', word: 'NEGATİF', cat: 'S', clue: 'Deniz seviyesinin altını göstermek için kullandığımız, eksi işaretli tam sayılara ne ad verilir?', row: 4, col: 6 },
+                { id: 4, dir: 'V', word: 'VERİ', cat: 'V', clue: 'Bir araştırma sorusu sonucunda toplanan ham bilgilerin her birine ne denir?', row: 3, col: 8 },
+                { id: 5, dir: 'H', word: 'HACİM', cat: 'G', clue: 'Bir havuzun veya deponun uzayda (boşlukta) kapladığı o toplam yere ne ad verilir?', row: 9, col: 3 },
+                { id: 6, dir: 'V', word: 'ÇAP', cat: 'G', clue: 'Çemberin bir kıyısından girip tam merkezinden geçerek diğer kıyıya ulaşan en uzun çizgiye ne denir?', row: 8, col: 4 }
             ]},
         { title: "Kristal Mağara", gridSize: 14, hints: [{row: 4, col: 9}], words: [
-                { id: 1, dir: 'H', word: 'ORTALAMA', clue: 'Veri grubundaki tüm sayıları toplayıp kişi sayısına bölerek bulduğumuz değere ne denir?', row: 4, col: 2 },
-                { id: 2, dir: 'V', word: 'KOMŞU', clue: 'Köşeleri ve birer kolları tamamen ortak olan, yan yana duran açılara ne denir?', row: 3, col: 2 },
-                { id: 3, dir: 'H', word: 'TEK', clue: 'Sonu 1, 3, 5, 7 veya 9 ile biten, ikiye tam bölünemeyen sayılara ne ad verilir?', row: 3, col: 0 },
-                { id: 4, dir: 'V', word: 'BÜTÜN', clue: 'Kesirlerde, hiçbir parçaya ayrılmamış tam ve eksiksiz olan duruma ne ad verilir?', row: 2, col: 4 },
-                { id: 5, dir: 'V', word: 'PAY', clue: 'Bir pastadan kaç dilim yediğimizi gösteren ve kesir çizgisinin üstüne yazılan sayıya ne denir?', row: 3, col: 7 },
-                { id: 6, dir: 'V', word: 'KARE', clue: 'Dört kenarı ve dört açısı birbirine tam eşit olan o özel dörtgene geometride ne denir?', row: 3, col: 9 },
-                { id: 7, dir: 'H', word: 'KESİR', clue: 'Bir bütünün eş parçalarından birini gösteren (pay ve paydası olan) sayıya ne denir?', row: 6, col: 8 }
+                { id: 1, dir: 'H', word: 'ORTALAMA', cat: 'V', clue: 'Veri grubundaki tüm sayıları toplayıp kişi sayısına bölerek bulduğumuz değere ne denir?', row: 4, col: 2 },
+                { id: 2, dir: 'V', word: 'KOMŞU', cat: 'G', clue: 'Köşeleri ve birer kolları tamamen ortak olan, yan yana duran açılara ne denir?', row: 3, col: 2 },
+                { id: 3, dir: 'H', word: 'TEK', cat: 'S', clue: 'Sonu 1, 3, 5, 7 veya 9 ile biten, ikiye tam bölünemeyen sayılara ne ad verilir?', row: 3, col: 0 },
+                { id: 4, dir: 'V', word: 'BÜTÜN', cat: 'S', clue: 'Kesirlerde, hiçbir parçaya ayrılmamış tam ve eksiksiz olan duruma ne ad verilir?', row: 2, col: 4 },
+                { id: 5, dir: 'V', word: 'PAY', cat: 'S', clue: 'Bir pastadan kaç dilim yediğimizi gösteren ve kesir çizgisinin üstüne yazılan sayıya ne denir?', row: 3, col: 7 },
+                { id: 6, dir: 'V', word: 'KARE', cat: 'G', clue: 'Dört kenarı ve dört açısı birbirine tam eşit olan o özel dörtgene geometride ne denir?', row: 3, col: 9 },
+                { id: 7, dir: 'H', word: 'KESİR', cat: 'S', clue: 'Bir bütünün eş parçalarından birini gösteren (pay ve paydası olan) sayıya ne denir?', row: 6, col: 8 }
             ]},
         { title: "Sonsuz Çöl", gridSize: 13, hints: [{row: 8, col: 4}], words: [
-                { id: 1, dir: 'H', word: 'AÇIKLIK', clue: 'En sıcak ile en soğuk gün arasındaki fark gibi, veri grubundaki en büyük ve en küçük değerin farkına ne denir?', row: 4, col: 2 },
-                { id: 2, dir: 'V', word: 'DAR', clue: 'Ölçüsü dik açıdan (90 dereceden) daha kapalı ve küçük olan açılara ne ad verilir?', row: 3, col: 2 },
-                { id: 3, dir: 'V', word: 'TABLO', clue: 'Topladığımız verileri daha kolay okuyabilmek için satır ve sütunlar halinde düzenlediğimiz çizelgeye ne denir?', row: 1, col: 6 },
-                { id: 4, dir: 'V', word: 'DENK', clue: '1/2 ile 2/4 gibi, aynı büyüklüğü gösteren fakat farklı yazılan kesirlere ne ad verilir?', row: 1, col: 8 },
-                { id: 5, dir: 'H', word: 'YÜZEY', clue: 'Üç boyutlu cisimlerin dışını kaplayan ve elimizle dokunabildiğimiz düzlemsel kısımlara ne denir?', row: 8, col: 2 }
+                { id: 1, dir: 'H', word: 'AÇIKLIK', cat: 'V', clue: 'En sıcak ile en soğuk gün arasındaki fark gibi, veri grubundaki en büyük ve en küçük değerin farkına ne denir?', row: 4, col: 2 },
+                { id: 2, dir: 'V', word: 'DAR', cat: 'G', clue: 'Ölçüsü dik açıdan (90 dereceden) daha kapalı ve küçük olan açılara ne ad verilir?', row: 3, col: 2 },
+                { id: 3, dir: 'V', word: 'TABLO', cat: 'V', clue: 'Topladığımız verileri daha kolay okuyabilmek için satır ve sütunlar halinde düzenlediğimiz çizelgeye ne denir?', row: 1, col: 6 },
+                { id: 4, dir: 'V', word: 'DENK', cat: 'S', clue: '1/2 ile 2/4 gibi, aynı büyüklüğü gösteren fakat farklı yazılan kesirlere ne ad verilir?', row: 1, col: 8 },
+                { id: 5, dir: 'H', word: 'YÜZEY', cat: 'G', clue: 'Üç boyutlu cisimlerin dışını kaplayan ve elimizle dokunabildiğimiz düzlemsel kısımlara ne denir?', row: 8, col: 2 }
             ]},
         { title: "Gölgeler Geçidi", gridSize: 13, hints: [{row: 6, col: 4}], words: [
-                { id: 1, dir: 'H', word: 'ONDALIK', clue: 'Kesirlerin virgül kullanılarak (örneğin 2,5 şeklinde) yazıldığı gösterime ne ad verilir?', row: 3, col: 2 },
-                { id: 2, dir: 'V', word: 'PAYDA', clue: 'Bütün bir pastayı böldüğümüzde toplam dilim sayısını gösteren, kesrin altındaki sayıya ne denir?', row: 0, col: 4 },
-                { id: 3, dir: 'V', word: 'ORTAK', clue: 'İki farklı sayının bölenlerini incelediğimizde, her ikisinde de aynı olan sayılara ne denir?', row: 3, col: 2 },
-                { id: 4, dir: 'H', word: 'ALAN', clue: 'Gölün su yüzeyinin düzlemde kapladığı o toplam iki boyutlu büyüklüğü ifade eden kavrama ne denir?', row: 6, col: 2 },
-                { id: 5, dir: 'H', word: 'YÜZDE', clue: 'Bir çokluğu 100 eş parçaya bölüp sembolle (%) gösterdiğimiz kesir türüne ne ad verilir?', row: 8, col: 4 }
+                { id: 1, dir: 'H', word: 'ONDALIK', cat: 'S', clue: 'Kesirlerin virgül kullanılarak (örneğin 2,5 şeklinde) yazıldığı gösterime ne ad verilir?', row: 3, col: 2 },
+                { id: 2, dir: 'V', word: 'PAYDA', cat: 'S', clue: 'Bütün bir pastayı böldüğümüzde toplam dilim sayısını gösteren, kesrin altındaki sayıya ne denir?', row: 0, col: 4 },
+                { id: 3, dir: 'V', word: 'ORTAK', cat: 'S', clue: 'İki farklı sayının bölenlerini incelediğimizde, her ikisinde de aynı olan sayılara ne denir?', row: 3, col: 2 },
+                { id: 4, dir: 'H', word: 'ALAN', cat: 'G', clue: 'Gölün su yüzeyinin düzlemde kapladığı o toplam iki boyutlu büyüklüğü ifade eden kavrama ne denir?', row: 6, col: 2 },
+                { id: 5, dir: 'H', word: 'YÜZDE', cat: 'S', clue: 'Bir çokluğu 100 eş parçaya bölüp sembolle (%) gösterdiğimiz kesir türüne ne ad verilir?', row: 8, col: 4 }
             ]},
         { title: "Zirve Tapınağı", gridSize: 13, hints: [{row: 6, col: 6}], words: [
-                { id: 1, dir: 'H', word: 'BİRİMKÜP', clue: 'Hacim ölçmek için kullandığımız, her ayrıtının uzunluğu tam 1 birim olan o küçük küplere ne ad verilir?', row: 2, col: 2 },
-                { id: 2, dir: 'V', word: 'CİSİM', clue: 'Eni, boyu ve yüksekliği olup uzayda hacim kaplayan üç boyutlu geometrik şekillere genel olarak ne denir?', row: 1, col: 3 },
-                { id: 3, dir: 'V', word: 'KESİŞİM', clue: 'İki kümenin sadece ortak olan elemanlarından oluşan ve ters U (∩) ile gösterilen o yeni kümeye ne denir?', row: 2, col: 7 },
-                { id: 4, dir: 'H', word: 'BOŞ', clue: 'İçinde hiçbir elemanı bulunmayan kümeleri ifade ederken küme kelimesinin önüne ne getirilir?', row: 6, col: 5 },
-                { id: 5, dir: 'H', word: 'AYRIT', clue: 'Geometrik cisimlerde iki yüzeyin birleştiği o düz ve keskin çizgilere (kenarlara) matematikte ne ad verilir?', row: 10, col: 2 }
+                { id: 1, dir: 'H', word: 'BİRİMKÜP', cat: 'G', clue: 'Hacim ölçmek için kullandığımız, her ayrıtının uzunluğu tam 1 birim olan o küçük küplere ne ad verilir?', row: 2, col: 2 },
+                { id: 2, dir: 'V', word: 'CİSİM', cat: 'G', clue: 'Eni, boyu ve yüksekliği olup uzayda hacim kaplayan üç boyutlu geometrik şekillere genel olarak ne denir?', row: 1, col: 3 },
+                { id: 3, dir: 'V', word: 'KESİŞİM', cat: 'K', clue: 'İki kümenin sadece ortak olan elemanlarından oluşan ve ters U (∩) ile gösterilen o yeni kümeye ne denir?', row: 2, col: 7 },
+                { id: 4, dir: 'H', word: 'BOŞ', cat: 'K', clue: 'İçinde hiçbir elemanı bulunmayan kümeleri ifade ederken küme kelimesinin önüne ne getirilir?', row: 6, col: 5 },
+                { id: 5, dir: 'H', word: 'AYRIT', cat: 'G', clue: 'Geometrik cisimlerde iki yüzeyin birleştiği o düz ve keskin çizgilere (kenarlara) matematikte ne ad verilir?', row: 10, col: 2 }
             ]}
     ];
 
@@ -258,16 +315,16 @@
             [array[i], array[j]] = [array[j], array[i]];
         }
     }
-    
     shuffleArray(levels);
 
     let currentLevelIndex = 0;
     let unlockedLevels = 0;
     let gridMap = [];
     let wordStatusMap = {}; 
-    let currentLevelErrors = 0; // Yıldız hesabı için
-    let levelStarsData = {}; // Hangi bölümden kaç yıldız alındığı
+    let currentLevelErrors = 0; 
+    let levelStarsData = {}; 
 
+    const loginView = document.getElementById('login-view');
     const mapView = document.getElementById('map-view');
     const puzzleView = document.getElementById('puzzle-view');
     const headerTitle = document.getElementById('header-title');
@@ -283,7 +340,22 @@
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
 
-    // Maskot Tepkileri
+    // --- GİRİŞ İŞLEMİ ---
+    function loginStudent() {
+        const inputVal = document.getElementById('student-name-input').value.trim();
+        if(inputVal.length < 3) {
+            showToast("Lütfen adını ve soyadını eksiksiz gir!", "error");
+            return;
+        }
+        studentName = inputVal;
+        headerTitle.textContent = "🗺️ Barbaros'un Macerası - " + studentName;
+        loginView.style.display = 'none';
+        mapView.style.display = 'flex';
+        initMapNames();
+        applyCornerDecorations('map-view');
+        updateMapUI();
+    }
+
     let mascotTimeout;
     function setMascotReaction(type, message) {
         clearTimeout(mascotTimeout);
@@ -314,18 +386,15 @@
         }
     }
 
-    // Yıldız Partikülleri Efekti
     function spawnParticles(cells) {
         cells.forEach(cell => {
-            const rect = cell.getBoundingClientRect();
             for(let i=0; i<3; i++) {
                 const p = document.createElement('div');
                 p.innerHTML = ['✨', '⭐', '🌟'][Math.floor(Math.random()*3)];
                 p.className = 'sparkle-particle';
                 p.style.setProperty('--tx', (Math.random() * 100 - 50) + 'px');
                 p.style.setProperty('--ty', (Math.random() * -100 - 20) + 'px');
-                p.style.left = '50%';
-                p.style.top = '50%';
+                p.style.left = '50%'; p.style.top = '50%';
                 cell.parentElement.appendChild(p);
                 setTimeout(() => p.remove(), 1000);
             }
@@ -357,14 +426,11 @@
 
     function showToast(message, type) {
         const toast = document.createElement('div');
-        toast.className = toast ${type};
+        toast.className = `toast ${type}`;
         toast.textContent = message;
         toastContainer.appendChild(toast);
         setTimeout(() => toast.classList.add('show'), 10);
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
+        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
     }
 
     function normalizeText(text) {
@@ -381,7 +447,7 @@
         recognition.onstart = () => { micBtn.classList.add("listening"); setMascotReaction('listen'); };
         recognition.onresult = (event) => { 
             const transcript = normalizeText(event.results[0][0].transcript).trim(); 
-            mascotBubble.textContent = Duyulan: "${transcript}"; 
+            mascotBubble.textContent = `Duyulan: "${transcript}"`; 
             checkSpokenWord(transcript); 
         };
         recognition.onerror = () => { setMascotReaction('sad', "Ses anlaşılamadı!"); };
@@ -393,7 +459,7 @@
 
     function initMapNames() {
         for (let i = 0; i < levels.length; i++) {
-            const nodeDiv = document.getElementById(node-${i});
+            const nodeDiv = document.getElementById(`node-${i}`);
             if(nodeDiv) {
                 const nameDiv = nodeDiv.querySelector('.level-name');
                 if(nameDiv) nameDiv.textContent = levels[i].title;
@@ -403,7 +469,7 @@
 
     function updateMapUI() {
         for (let i = 0; i < levels.length; i++) {
-            const node = document.getElementById(node-${i});
+            const node = document.getElementById(`node-${i}`);
             if(!node) continue;
             node.className = 'level-node'; 
             const starDiv = node.querySelector('.node-stars');
@@ -411,9 +477,7 @@
             if (i < unlockedLevels) { 
                 node.classList.add('node-completed'); 
                 node.querySelector('span').innerHTML = "✔"; 
-                // Yıldızları göster
-                const stars = levelStarsData[i] || 3;
-                starDiv.innerHTML = '⭐'.repeat(stars);
+                starDiv.innerHTML = '⭐'.repeat(levelStarsData[i] || 3);
             } 
             else if (i === unlockedLevels) { 
                 node.classList.add('node-unlocked'); 
@@ -432,7 +496,7 @@
         if (levelIndex > unlockedLevels) return; 
         currentLevelIndex = levelIndex;
         wordStatusMap = {}; 
-        currentLevelErrors = 0; // Hatayı sıfırla
+        currentLevelErrors = 0; 
         progressBar.style.width = '0%';
         
         mapView.style.display = 'none';
@@ -453,7 +517,7 @@
         puzzleView.style.display = 'none'; 
         mapView.style.display = 'flex'; 
         document.getElementById('close-btn').style.display = 'none'; 
-        headerTitle.textContent = "🗺️ Barbaros'un Macerası"; 
+        headerTitle.textContent = "🗺️ Barbaros'un Macerası - " + studentName; 
         applyCornerDecorations('map-view');
         updateMapUI();
     }
@@ -461,7 +525,7 @@
     function buildCrossword() {
         const levelData = levels[currentLevelIndex];
         const size = levelData.gridSize;
-        gridContainer.style.gridTemplateColumns = repeat(${size}, 1fr); 
+        gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`; 
         gridContainer.innerHTML = '';
         gridMap = Array(size).fill(null).map(() => Array(size).fill(null));
 
@@ -491,11 +555,7 @@
                     const isHint = levelData.hints && levelData.hints.some(h => h.row === r && h.col === c);
                     if (isHint) { input.value = input.dataset.answer; input.classList.add('correct', 'hint-cell'); input.readOnly = true; }
                     
-                    input.addEventListener('input', function() { 
-                        this.value = normalizeText(this.value); 
-                        evaluateBoard(); 
-                    });
-                    
+                    input.addEventListener('input', function() { this.value = normalizeText(this.value); evaluateBoard(); });
                     wrapper.appendChild(input);
 
                     if (cellData.numbers.length > 0) {
@@ -511,7 +571,7 @@
         document.getElementById('across-clues').innerHTML = '<strong>Soldan Sağa ➡️</strong>';
         document.getElementById('down-clues').innerHTML = '<strong>Yukarıdan Aşağıya ⬇️</strong>';
         levelData.words.forEach(item => {
-            const li = document.createElement('li'); li.innerHTML = <span class="clue-num">${item.id}</span> <span>${item.clue}</span>;
+            const li = document.createElement('li'); li.innerHTML = `<span class="clue-num">${item.id}</span> <span>${item.clue}</span>`;
             if (item.dir === 'H') document.getElementById('across-clues').appendChild(li); else document.getElementById('down-clues').appendChild(li);
         });
         evaluateBoard(true); 
@@ -530,8 +590,8 @@
             });
             evaluateBoard();
         } else {
-            setMascotReaction('sad', Bulmacada "${spokenWord}" yok!);
-            currentLevelErrors++; // Hatayı artır
+            setMascotReaction('sad', `Bulmacada "${spokenWord}" yok!`);
+            currentLevelErrors++;
             playSound('wrong');
         }
     }
@@ -575,7 +635,7 @@
                         wordStatusMap[item.id] = 'correct';
                         if (!isInitial) {
                             spawnParticles(wordCells);
-                            setMascotReaction('happy', ${item.word} harika!);
+                            setMascotReaction('happy', `${item.word} harika!`);
                             playSound('correct');
                         }
                     }
@@ -588,7 +648,9 @@
                         wordStatusMap[item.id] = 'wrong';
                         if (!isInitial) {
                             setMascotReaction('sad', "Kırmızıları düzelt!");
-                            currentLevelErrors++; // Hata artır
+                            currentLevelErrors++; 
+                            // Hata kaydını istatistik için kaydet
+                            wordMistakes[item.word] = true;
                             playSound('wrong');
                         }
                     }
@@ -600,23 +662,20 @@
             }
         });
 
-        // İlerleme çubuğunu güncelle
         const progressPercent = (correctWordsCount / levelData.words.length) * 100;
         progressBar.style.width = progressPercent + '%';
 
         if (allWordsCorrect && !isInitial) {
             playSound('win'); 
-            
-            // Yıldız Hesaplama Mantığı (0 hata=3, 1-2 hata=2, 3+ hata=1)
             let earnedStars = 3;
             if(currentLevelErrors > 0 && currentLevelErrors <= 2) earnedStars = 2;
             else if(currentLevelErrors > 2) earnedStars = 1;
             levelStarsData[currentLevelIndex] = earnedStars;
 
-            setMascotReaction('happy', Bölüm bitti! ${earnedStars} Yıldız aldın!);
+            setMascotReaction('happy', `Bölüm bitti! ${earnedStars} Yıldız!`);
             if(micBtn) micBtn.style.display = 'none'; 
             nextMapBtn.style.display = 'block';
-            if (currentLevelIndex === levels.length - 1) nextMapBtn.textContent = "Sertifikanı Al! 🏆"; 
+            if (currentLevelIndex === levels.length - 1) nextMapBtn.textContent = "Sertifikayı ve Raporu Al! 🏆"; 
             else nextMapBtn.textContent = "Haritaya Dön & İlerle";
         } else {
             nextMapBtn.style.display = 'none';
@@ -628,8 +687,87 @@
         if (currentLevelIndex === levels.length - 1) showCertificate(); else backToMap();
     }
 
+    // --- İSTATİSTİK HESAPLAMA VE SERTİFİKA EKRANI ---
     function showCertificate() {
-        document.getElementById('close-btn').style.display = 'none'; puzzleView.style.display = 'none'; mapView.style.display = 'none'; certView.style.display = 'flex'; headerTitle.textContent = "🏆 Büyük Zafer!"; createConfetti();
+        document.getElementById('close-btn').style.display = 'none'; puzzleView.style.display = 'none'; mapView.style.display = 'none'; 
+        certView.style.display = 'flex'; headerTitle.textContent = "🏆 Büyük Zafer!"; 
+        
+        document.getElementById('cert-student-name').textContent = studentName;
+        
+        // Verileri Hesapla
+        const stats = { 'S': {t:0, e:0}, 'C': {t:0, e:0}, 'G': {t:0, e:0}, 'V': {t:0, e:0}, 'K': {t:0, e:0} };
+        
+        levels.forEach(lvl => {
+            lvl.words.forEach(w => {
+                if(stats[w.cat]) {
+                    stats[w.cat].t++;
+                    if(wordMistakes[w.word]) stats[w.cat].e++; // Bu kelimede hata yapıldıysa
+                }
+            });
+        });
+
+        const listDiv = document.getElementById('stats-list');
+        listDiv.innerHTML = "";
+
+        Object.keys(categories).forEach(cat => {
+            const data = stats[cat];
+            if(data.t > 0) {
+                const errorRate = Math.round((data.e / data.t) * 100);
+                let colorClass = "val-good";
+                if(errorRate > 20) colorClass = "val-warn";
+                if(errorRate > 50) colorClass = "val-bad";
+
+                const row = document.createElement('div');
+                row.className = 'stat-row';
+                row.innerHTML = `<span class="stat-cat">${categories[cat]}</span> <span class="stat-val ${colorClass}">%${errorRate} Hata</span>`;
+                listDiv.appendChild(row);
+            }
+        });
+
+        createConfetti();
+    }
+
+    function downloadReport() {
+        let content = `======================================\n`;
+        content += `   BARBAROS'UN MACERASI - ÖĞRENCİ RAPORU\n`;
+        content += `======================================\n\n`;
+        content += `Öğrenci Adı: ${studentName}\n`;
+        content += `Tarih: ${new Date().toLocaleDateString('tr-TR')} - Saat: ${new Date().toLocaleTimeString('tr-TR')}\n\n`;
+        content += `KONULARA GÖRE HATA ORANLARI:\n`;
+        content += `--------------------------------------\n`;
+
+        const stats = { 'S': {t:0, e:0}, 'C': {t:0, e:0}, 'G': {t:0, e:0}, 'V': {t:0, e:0}, 'K': {t:0, e:0} };
+        levels.forEach(lvl => {
+            lvl.words.forEach(w => {
+                if(stats[w.cat]) {
+                    stats[w.cat].t++;
+                    if(wordMistakes[w.word]) stats[w.cat].e++;
+                }
+            });
+        });
+
+        Object.keys(categories).forEach(cat => {
+            const data = stats[cat];
+            if(data.t > 0) {
+                const errorRate = Math.round((data.e / data.t) * 100);
+                content += `- ${categories[cat].padEnd(25)}: %${errorRate} Hata\n`;
+            }
+        });
+
+        content += `\n--------------------------------------\n`;
+        content += `Öğretmene Not: %50 ve üzeri hata oranı olan konuların\ntekrar edilmesi tavsiye edilir.\n`;
+
+        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `Matematik_Raporu_${studentName.replace(/\s+/g, '_')}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        showToast("Rapor başarıyla indirildi!", "success");
     }
 
     function createConfetti() {
@@ -638,12 +776,6 @@
             let conf = document.createElement('div'); conf.classList.add('confetti'); conf.style.left = Math.random() * 100 + 'vw'; conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; conf.style.animationDuration = (Math.random() * 3 + 2) + 's'; conf.style.animationDelay = (Math.random() * 2) + 's'; certView.appendChild(conf);
         }
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        initMapNames();
-        applyCornerDecorations('map-view');
-        updateMapUI();
-    });
 </script>
 </body>
 </html>
