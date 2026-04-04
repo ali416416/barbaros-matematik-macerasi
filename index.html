@@ -2,149 +2,154 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Barbaros'un 6. Sınıf Matematik Macerası</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style>
         /* Genel Stiller */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #c4bca3; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #4b4b4b; overflow: hidden; }
-        .app-container { background-color: #e5deb8; width: 100%; max-width: 1000px; height: 95vh; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; display: flex; flex-direction: column; position: relative; }
-        .header { background-color: #2b7a0b; color: white; padding: 20px; text-align: center; font-size: 24px; font-weight: bold; border-bottom: 4px solid #1f5a08; z-index: 10; }
+        body { font-family: 'Nunito', sans-serif; background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #4b4b4b; overflow: hidden; }
+        
+        .app-container { background-color: #f8fcf8; width: 100%; max-width: 1000px; height: 100vh; height: 100dvh; border-radius: 0; box-shadow: 0 15px 50px rgba(0,0,0,0.4); overflow: hidden; display: flex; flex-direction: column; position: relative; }
+        @media (min-width: 850px) { .app-container { height: 95vh; border-radius: 25px; border: 4px solid #fff; } }
+        
+        .header { background: linear-gradient(90deg, #58cc02, #2b7a0b); color: white; padding: 18px; text-align: center; font-size: 22px; font-weight: 900; border-bottom: 4px solid #1f5a08; z-index: 10; flex-shrink: 0; text-shadow: 1px 2px 3px rgba(0,0,0,0.2); letter-spacing: 1px;}
 
         /* Bildirim (Toast) Sistemi */
-        .toast-container { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
-        .toast { padding: 12px 24px; border-radius: 12px; font-size: 16px; font-weight: bold; color: white; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .toast-container { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; width: 90%; align-items: center;}
+        .toast { padding: 12px 24px; border-radius: 12px; font-size: 16px; font-weight: 900; color: white; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center; }
         .toast.show { opacity: 1; transform: translateY(0); }
-        .toast.success { background-color: #58cc02; border-bottom: 3px solid #46a302; }
-        .toast.error { background-color: #ff4b4b; border-bottom: 3px solid #ea2b2b; }
+        .toast.success { background-color: #58cc02; border-bottom: 4px solid #46a302; }
+        .toast.error { background-color: #ff4b4b; border-bottom: 4px solid #ea2b2b; }
 
-        /* DEKORATİF RESİM ALTYAPISI */
-        .corner-decor {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            z-index: 5;
-            opacity: 0.35;
-            pointer-events: none;
-        }
-        .decor-1 { top: 20px; left: 10px; }
-        .decor-2 { top: 20px; right: 10px; }
-        .decor-3 { top: 40%; left: -20px; }
-        .decor-4 { top: 40%; right: -20px; }
-        .decor-5 { bottom: 110px; left: 10px; }
-        .decor-6 { bottom: 110px; right: 10px; }
+        /* DEKORATİF RESİMLER */
+        .corner-decor { position: absolute; width: 120px; height: 120px; background-size: contain; background-repeat: no-repeat; background-position: center; z-index: 1; opacity: 0.35; pointer-events: none; }
+        @media (max-width: 600px) { .corner-decor { width: 80px; height: 80px; opacity: 0.25; } }
+        .decor-1 { top: 15px; left: 10px; }
+        .decor-2 { top: 15px; right: 10px; }
+        .decor-3 { top: 40%; left: -10px; }
+        .decor-4 { top: 40%; right: -10px; }
+        .decor-5 { bottom: 100px; left: 10px; }
+        .decor-6 { bottom: 100px; right: 10px; }
 
         /* HARİTA GÖRÜNÜMÜ */
-        #map-view { 
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 40px 20px 100px 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            background-image: url('8..jpg');
-            background-size: cover; 
-            background-position: center;
-            position: relative;
-        }
-        #map-view::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(229, 222, 184, 0.4); 
-            z-index: 1; pointer-events: none;
-        }
+        #map-view { flex: 1; overflow-y: auto; padding: 20px 10px 120px 10px; display: flex; flex-direction: column; align-items: center; background-image: url('8..jpg'); background-size: cover; background-position: center; position: relative; }
+        #map-view::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 249, 230, 0.6); z-index: 1; pointer-events: none; }
+        .map-title { font-size: 20px; font-weight: 900; color: #1f5a08; margin-bottom: 35px; text-align: center; background: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 15px; z-index: 2; border: 2px solid #58cc02; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        .map-title { font-size: 24px; font-weight: bold; color: #1f5a08; margin-bottom: 40px; text-align: center; background: rgba(255,255,255,0.85); padding: 10px 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 2; border: 1px solid #e5e5e5; }
+        .level-node { width: 70px; height: 70px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 24px; font-weight: 900; color: white; position: relative; margin-bottom: 75px; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 0 rgba(0,0,0,0.2); z-index: 2; border: 3px solid white;}
+        .level-name { position: absolute; top: calc(100% + 15px); left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 800; color: #4b4b4b; white-space: nowrap; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 12px; border: 2px solid #e5e5e5; box-shadow: 0 4px 8px rgba(0,0,0,0.15); text-align: center;}
         
-        .level-node { width: 80px; height: 80px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; color: white; position: relative; margin-bottom: 70px; cursor: pointer; transition: transform 0.2s; text-align: center; flex-shrink: 0; box-shadow: 0 6px 0 #c2821b; z-index: 2; }
-        .level-name { position: absolute; top: 90px; font-size: 14px; font-weight: bold; color: #4b4b4b; white-space: nowrap; background: rgba(255,255,255,0.9); padding: 6px 12px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #e5e5e5; }
-        .level-node:active { transform: scale(0.9); box-shadow: 0 2px 0 #c2821b; margin-top: 4px; margin-bottom: 66px; }
-        .level-node:nth-child(odd) { transform: translateX(-50px); }
-        .level-node:nth-child(even) { transform: translateX(50px); }
-        .level-node::after { content: ''; position: absolute; top: 80px; width: 10px; height: 70px; background-color: #d1cbb0; z-index: -1; }
-        .level-node:nth-child(odd)::after { left: 50%; transform: rotate(-25deg); transform-origin: top; }
-        .level-node:nth-child(even)::after { right: 50%; transform: rotate(25deg); transform-origin: top; }
+        /* YENİ: Yıldızlar Konteyneri */
+        .node-stars { position: absolute; bottom: -18px; font-size: 14px; letter-spacing: -2px; display: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); z-index: 5; background: rgba(255,255,255,0.8); border-radius: 10px; padding: 1px 6px; border: 1px solid #ddd;}
+        .node-completed .node-stars { display: block; }
+
+        .level-node:active { transform: scale(0.9) translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,0.2); }
+        .level-node:nth-child(odd) { transform: translateX(-35px); }
+        .level-node:nth-child(even) { transform: translateX(35px); }
+        
+        .level-node::after { content: ''; position: absolute; top: 65px; width: 10px; height: 65px; background-color: #d1cbb0; z-index: -1; border-radius: 5px;}
+        .level-node:nth-child(odd)::after { left: 55%; transform: rotate(-15deg); transform-origin: top; }
+        .level-node:nth-child(even)::after { right: 55%; transform: rotate(15deg); transform-origin: top; }
         .level-node:last-child::after { display: none; }
-        .node-locked { background-color: #dcd7c3; color: #afafaf; cursor: not-allowed; box-shadow: 0 6px 0 #c2bcab; }
-        .node-unlocked { background-color: #f5a623; animation: bounce 2s infinite; }
-        .node-completed { background-color: #58cc02; box-shadow: 0 6px 0 #58a700; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0) translateX(inherit); } 50% { transform: translateY(-10px) translateX(inherit); } }
+        
+        .node-locked { background-color: #dcd7c3; color: #999; box-shadow: 0 5px 0 #b5b09f, 0 8px 10px rgba(0,0,0,0.1); border-color: #f0ede1;}
+        .node-unlocked { background-color: #ffc800; animation: bounceGlow 2s infinite; border-color: white; color: #b26b00; text-shadow: 1px 1px 0 rgba(255,255,255,0.5);}
+        .node-completed { background-color: #58cc02; box-shadow: 0 5px 0 #46a302, 0 8px 10px rgba(0,0,0,0.1); }
+        
+        @keyframes bounceGlow { 
+            0%, 100% { transform: translateY(0) translateX(inherit); box-shadow: 0 5px 0 #d9aa00, 0 0 0 0 rgba(255, 200, 0, 0.7); } 
+            50% { transform: translateY(-10px) translateX(inherit); box-shadow: 0 5px 0 #d9aa00, 0 0 0 15px rgba(255, 200, 0, 0); } 
+        }
 
         /* BULMACA GÖRÜNÜMÜ */
-        #puzzle-view { 
-            display: none; 
-            flex: 1; 
-            flex-direction: column; 
-            background-color: transparent; 
-            position: relative;
-        }
-        .main-content { display: flex; flex-direction: column; padding: 20px; gap: 20px; flex: 1; overflow-y: auto; z-index: 2; position: relative;}
+        #puzzle-view { display: none; flex: 1; flex-direction: column; background-color: transparent; position: relative; overflow: hidden; }
+        
+        /* YENİ: İlerleme Çubuğu (Progress Bar) */
+        .progress-container { width: 90%; max-width: 600px; height: 16px; background: rgba(255,255,255,0.8); border-radius: 10px; margin: 10px auto 0 auto; border: 2px solid #ddd; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; z-index: 5; flex-shrink: 0;}
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ffc800, #ff9500); transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1); }
+
+        .main-content { display: flex; flex-direction: column; padding: 10px; gap: 15px; flex: 1; overflow-y: auto; z-index: 2; position: relative; }
         @media (min-width: 850px) { .main-content { flex-direction: row; } }
-        .crossword-board { flex: 1.5; display: flex; justify-content: center; align-items: flex-start; overflow-x: auto; overflow-y: auto; padding-bottom: 20px; }
-        .grid { display: grid; gap: 2px; background-color: rgba(75, 75, 75, 0.95); padding: 6px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);}
-        .cell { width: 30px; height: 30px; background-color: white; border: 2px solid #cecece; border-radius: 4px; font-size: 18px; font-weight: bold; text-align: center; text-transform: uppercase; color: #4b4b4b; position: relative; outline: none; transition: all 0.3s; }
-        .cell:focus { border-color: #1cb0f6; background-color: #ddf4ff; }
-        .cell.correct { background-color: #d7ffb8; color: #58a700; border-color: #58cc02; }
-        .cell.wrong { background-color: #ffdfe0; color: #ea2b2b; border-color: #ff4b4b; animation: shake 0.3s; }
-        .cell.hint-cell { background-color: #e2f5d1; color: #1f5a08; border-color: #8bd450; cursor: not-allowed; }
-        .empty-cell { width: 34px; height: 34px; background-color: transparent; }
-        .cell-number { position: absolute; top: 0px; left: 2px; font-size: 11px; font-weight: bold; color: #1cb0f6; line-height: 1; letter-spacing: -0.5px; }
+        
+        .crossword-board { flex-shrink: 0; display: flex; justify-content: flex-start; align-items: flex-start; overflow-x: auto; padding: 5px 10px 20px 10px; }
+        
+        .grid { display: grid; gap: 2px; background-color: rgba(60, 60, 60, 0.9); padding: 6px; border-radius: 12px; margin: 0 auto; margin-top: 5px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);}
+        
+        .cell { width: 8vw; height: 8vw; max-width: 36px; max-height: 36px; background-color: white; border: none; border-radius: 6px; font-size: 18px; font-weight: 900; font-family: 'Nunito', sans-serif; text-align: center; text-transform: uppercase; color: #4b4b4b; position: relative; outline: none; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1); transition: transform 0.1s;}
+        .cell:focus { background-color: #ddf4ff; transform: scale(1.15); z-index: 5; box-shadow: 0 5px 15px rgba(28, 176, 246, 0.4), inset 0 -3px 0 rgba(0,0,0,0.1); color: #1cb0f6;}
+        .cell.correct { background-color: #58cc02; color: white; box-shadow: inset 0 -3px 0 #46a302; animation: popIn 0.3s; }
+        .cell.wrong { background-color: #ff4b4b; color: white; box-shadow: inset 0 -3px 0 #ea2b2b; animation: shake 0.3s; }
+        .cell.hint-cell { background-color: #e2f5d1; color: #1f5a08; box-shadow: inset 0 -3px 0 #c2e0a3; cursor: not-allowed; }
+        .empty-cell { width: calc(8vw + 2px); height: calc(8vw + 2px); max-width: 38px; max-height: 38px; background-color: transparent; }
+        
+        .cell-number { position: absolute; top: 2px; left: 4px; font-size: 11px; font-weight: 900; color: #1cb0f6; line-height: 1; text-shadow: 1px 1px 0 white;}
+        .cell.correct .cell-number, .cell.wrong .cell-number { color: white; text-shadow: none; opacity: 0.7;}
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 50% { transform: translateX(4px); } 75% { transform: translateX(-4px); } }
 
-        /* İpuçları Paneli */
-        .clues-panel { flex: 1; background-color: rgba(255,255,255,0.9); padding: 20px; border-radius: 12px; border: 2px solid #e5e5e5; max-height: 100%; overflow-y: auto; box-shadow: 0 10px 20px rgba(0,0,0,0.1); z-index: 2;}
-        .clue-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
-        .clue-list li { margin-bottom: 15px; font-size: 14px; display: flex; gap: 10px; line-height: 1.4; }
-        .clue-num { font-weight: bold; color: #f5a623; min-width: 20px; font-size: 16px; }
+        /* YENİ: Hücrelerden fışkıran mini yıldızlar */
+        .sparkle-particle { position: absolute; pointer-events: none; font-size: 16px; animation: flySparkle 1s ease-out forwards; z-index: 10; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        @keyframes flySparkle { 0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5) rotate(180deg); opacity: 0; } }
 
-        /* Alt Kısım ve Mikrofon */
-        .footer { padding: 15px 20px; border-top: 2px solid #d1cbb0; display: flex; flex-direction: column; align-items: center; background: #fdfbf5; position: relative; z-index: 10;}
-        .mic-btn { background-color: #ff4b4b; color: white; border: none; border-bottom: 4px solid #ea2b2b; border-radius: 50%; width: 60px; height: 60px; font-size: 24px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; margin-bottom: 10px; }
-        .mic-btn:active { transform: translateY(4px); border-bottom-width: 0; }
-        .mic-btn.listening { animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 75, 75, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 75, 75, 0); } }
-        .mic-status { font-size: 15px; color: #afafaf; font-weight: bold; height: 20px; background: white; padding: 2px 10px; border-radius: 10px;}
-        .action-btn { background-color: #58cc02; color: white; border: none; border-radius: 12px; padding: 15px 40px; font-size: 20px; font-weight: bold; cursor: pointer; border-bottom: 4px solid #58a700; width: 100%; max-width: 350px; margin-top: 15px; display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; }
-        .action-btn:active { transform: translateY(4px); border-bottom-width: 0; margin-top: 19px; }
-        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .close-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.4); border: none; color: white; font-size: 20px; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; z-index: 20; display: none; }
+        /* İpuçları Paneli */
+        .clues-panel { flex-shrink: 0; background-color: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); z-index: 2; margin-bottom: 10px;}
+        .clue-list { list-style: none; padding: 0; margin: 0 0 15px 0; font-size: 15px; line-height: 1.5; color: #555;}
+        .clue-num { font-weight: 900; color: #1cb0f6; min-width: 20px; font-size: 16px; background: #ddf4ff; padding: 2px 8px; border-radius: 8px; margin-right: 5px;}
+
+        /* Alt Kısım (Footer) */
+        .footer { flex-shrink: 0; padding: 10px 15px 25px 15px; padding-bottom: calc(15px + env(safe-area-inset-bottom)); border-top: 2px solid #e5e5e5; display: flex; flex-direction: column; align-items: center; background: white; position: relative; z-index: 20; box-shadow: 0 -10px 20px rgba(0,0,0,0.05); }
+        
+        /* YENİ: Maskot Alanı */
+        .mascot-area { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 10px; width: 100%; max-width: 350px;}
+        .mascot-icon { font-size: 40px; animation: floatMascot 3s ease-in-out infinite; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+        .mascot-bubble { background: #f0f0f0; padding: 8px 15px; border-radius: 15px; font-size: 14px; font-weight: 800; color: #444; position: relative; border: 2px solid #ddd; box-shadow: 0 4px 0 #ddd;}
+        .mascot-bubble::before { content: ''; position: absolute; left: -8px; top: 50%; transform: translateY(-50%); border-width: 8px 8px 8px 0; border-style: solid; border-color: transparent #ddd transparent transparent; }
+        
+        @keyframes floatMascot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .mascot-happy { animation: jumpMascot 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; }
+        .mascot-sad { animation: shakeMascot 0.5s !important; }
+        @keyframes jumpMascot { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-15px) scale(1.2); } }
+        @keyframes shakeMascot { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px) rotate(-10deg); } 75% { transform: translateX(6px) rotate(10deg); } }
+
+        .mic-btn { background: linear-gradient(180deg, #ff4b4b, #ea2b2b); color: white; border: none; border-radius: 50%; width: 65px; height: 65px; font-size: 26px; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; margin-bottom: 5px; box-shadow: 0 5px 0 #cc1a1a, 0 8px 15px rgba(234, 43, 43, 0.4);}
+        .mic-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #cc1a1a; }
+        .mic-btn.listening { animation: pulseMic 1.5s infinite; background: linear-gradient(180deg, #ff7b7b, #ff4b4b);}
+        @keyframes pulseMic { 0% { box-shadow: 0 5px 0 #cc1a1a, 0 0 0 0 rgba(255, 75, 75, 0.7); } 70% { box-shadow: 0 5px 0 #cc1a1a, 0 0 0 15px rgba(255, 75, 75, 0); } 100% { box-shadow: 0 5px 0 #cc1a1a, 0 0 0 0 rgba(255, 75, 75, 0); } }
+        
+        .action-btn { background: #58cc02; color: white; border: none; border-radius: 15px; padding: 16px 30px; font-size: 20px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; box-shadow: 0 5px 0 #46a302; width: 100%; max-width: 350px; margin-top: 5px; margin-bottom: 5px; display: none; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; letter-spacing: 0.5px;}
+        .action-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #46a302; margin-bottom: 10px;}
+        
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .close-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.3); border: none; color: white; font-size: 18px; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; z-index: 20; display: none; transition: background 0.2s;}
+        .close-btn:active { background: rgba(0,0,0,0.6); transform: scale(0.9);}
 
         /* SERTİFİKA EKRANI */
-        #certificate-view { 
-            display: none; 
-            flex: 1; 
-            background-image: url('image_4.png');
-            background-position: center;
-            background-size: contain; 
-            background-repeat: no-repeat;
-            position: relative; 
-            overflow: hidden; 
-            background-color: #e5deb8;
-        }
-        .confetti { position: absolute; width: 10px; height: 10px; background-color: #f0f0f0; animation: fall linear infinite; z-index: 5;}
+        #certificate-view { display: none; flex: 1; background-image: url('image_4.png'); background-position: center; background-size: contain; background-repeat: no-repeat; position: relative; overflow: hidden; background-color: #e5deb8; }
+        .confetti { position: absolute; width: 10px; height: 10px; border-radius: 3px; background-color: #f0f0f0; animation: fall linear infinite; z-index: 5; }
         @keyframes fall { to { transform: translateY(100vh) rotate(720deg); } }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <div class="header" id="header-title">Barbaros'un Macerası</div>
+    <div class="header" id="header-title">🗺️ Barbaros'un Macerası</div>
     <button class="close-btn" id="close-btn" onclick="backToMap()">✖</button>
     <div class="toast-container" id="toast-container"></div>
 
     <div id="map-view">
         <div class="map-title">Sarmal Matematik Serüveni</div>
-        <div class="level-node" id="node-0" onclick="startLevel(0)"><span>1</span><div class="level-name"></div></div>
-        <div class="level-node" id="node-1" onclick="startLevel(1)"><span>2</span><div class="level-name"></div></div>
-        <div class="level-node" id="node-2" onclick="startLevel(2)"><span>3</span><div class="level-name"></div></div>
-        <div class="level-node" id="node-3" onclick="startLevel(3)"><span>4</span><div class="level-name"></div></div>
-        <div class="level-node" id="node-4" onclick="startLevel(4)"><span>5</span><div class="level-name"></div></div>
-        <div class="level-node" id="node-5" onclick="startLevel(5)"><span>6</span><div class="level-name"></div></div>
-        <div class="level-node" id="node-6" onclick="startLevel(6)"><span>7</span><div class="level-name"></div></div>
+        <div class="level-node" id="node-0" onclick="startLevel(0)"><span>1</span><div class="level-name"></div><div class="node-stars"></div></div>
+        <div class="level-node" id="node-1" onclick="startLevel(1)"><span>2</span><div class="level-name"></div><div class="node-stars"></div></div>
+        <div class="level-node" id="node-2" onclick="startLevel(2)"><span>3</span><div class="level-name"></div><div class="node-stars"></div></div>
+        <div class="level-node" id="node-3" onclick="startLevel(3)"><span>4</span><div class="level-name"></div><div class="node-stars"></div></div>
+        <div class="level-node" id="node-4" onclick="startLevel(4)"><span>5</span><div class="level-name"></div><div class="node-stars"></div></div>
+        <div class="level-node" id="node-5" onclick="startLevel(5)"><span>6</span><div class="level-name"></div><div class="node-stars"></div></div>
+        <div class="level-node" id="node-6" onclick="startLevel(6)"><span>7</span><div class="level-name"></div><div class="node-stars"></div></div>
     </div>
 
     <div id="puzzle-view">
+        <div class="progress-container"><div class="progress-fill" id="progress-fill"></div></div>
         <div class="main-content">
             <div class="crossword-board"><div class="grid" id="grid"></div></div>
             <div class="clues-panel">
@@ -153,8 +158,11 @@
             </div>
         </div>
         <div class="footer">
+            <div class="mascot-area">
+                <div class="mascot-icon" id="mascot-icon">🦸‍♂️</div>
+                <div class="mascot-bubble" id="mascot-bubble">Kutuları doldur veya cevabı söyle!</div>
+            </div>
             <button id="mic-btn" class="mic-btn" title="Cevabı Sesli Söyle">🎤</button>
-            <div id="mic-status" class="mic-status">Kutuları doldur veya mikrofona cevabı söyle!</div>
             <button id="next-map-btn" class="action-btn" onclick="completeLevel()">Haritaya Dön & İlerle</button>
         </div>
     </div>
@@ -170,29 +178,23 @@
     function applyCornerDecorations(viewId) {
         const view = document.getElementById(viewId);
         view.querySelectorAll('.corner-decor').forEach(el => el.remove());
-        
         let availableImages = [...userImages];
         const positions = ['decor-1', 'decor-2', 'decor-3', 'decor-4', 'decor-5', 'decor-6'];
         
         for (let i = 0; i < 6; i++) {
             if (availableImages.length === 0) availableImages = [...userImages]; 
-            
             const randIdx = Math.floor(Math.random() * availableImages.length);
             const selectedImg = availableImages[randIdx];
             availableImages.splice(randIdx, 1);
             
             const decorDiv = document.createElement('div');
-            decorDiv.className = `corner-decor ${positions[i]}`;
-            decorDiv.style.backgroundImage = `url('${selectedImg}')`;
-            
-            const randomRotation = Math.floor(Math.random() * 40) - 20;
-            decorDiv.style.transform = `rotate(${randomRotation}deg)`;
-            
+            decorDiv.className = corner-decor ${positions[i]};
+            decorDiv.style.backgroundImage = url('${selectedImg}');
+            decorDiv.style.transform = rotate(${Math.floor(Math.random() * 40) - 20}deg);
             view.appendChild(decorDiv);
         }
     }
 
-    // 35 Benzersiz Kavram
     const levels = [
         { title: "Gizemli Başlangıç", gridSize: 13, hints: [{row: 2, col: 7}], words: [
                 { id: 1, dir: 'H', word: 'KATSAYI', clue: 'Alınan ürünün fiyatı gibi, cebirsel ifadede değişkenin önündeki sayıya ne denir?', row: 4, col: 4 },
@@ -250,7 +252,6 @@
             ]}
     ];
 
-    // --- KOPYA ÖNLEYİCİ: AŞAMALARI KARIŞTIRMA ALGORİTMASI ---
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -258,26 +259,78 @@
         }
     }
     
-    // Oyun açıldığında bölümleri karıştır
     shuffleArray(levels);
 
     let currentLevelIndex = 0;
     let unlockedLevels = 0;
     let gridMap = [];
     let wordStatusMap = {}; 
+    let currentLevelErrors = 0; // Yıldız hesabı için
+    let levelStarsData = {}; // Hangi bölümden kaç yıldız alındığı
 
     const mapView = document.getElementById('map-view');
     const puzzleView = document.getElementById('puzzle-view');
     const headerTitle = document.getElementById('header-title');
     const gridContainer = document.getElementById('grid');
     const micBtn = document.getElementById('mic-btn');
-    const micStatus = document.getElementById('mic-status');
     const nextMapBtn = document.getElementById('next-map-btn');
     const certView = document.getElementById('certificate-view');
     const toastContainer = document.getElementById('toast-container');
+    const mascotIcon = document.getElementById('mascot-icon');
+    const mascotBubble = document.getElementById('mascot-bubble');
+    const progressBar = document.getElementById('progress-fill');
 
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
+
+    // Maskot Tepkileri
+    let mascotTimeout;
+    function setMascotReaction(type, message) {
+        clearTimeout(mascotTimeout);
+        mascotIcon.className = 'mascot-icon';
+        
+        if(type === 'happy') {
+            mascotIcon.textContent = '🤩';
+            mascotIcon.classList.add('mascot-happy');
+            mascotBubble.textContent = message || "Harika gidiyorsun!";
+        } else if(type === 'sad') {
+            mascotIcon.textContent = '😅';
+            mascotIcon.classList.add('mascot-sad');
+            mascotBubble.textContent = message || "Bir daha dene!";
+        } else if(type === 'listen') {
+            mascotIcon.textContent = '👂';
+            mascotBubble.textContent = "Seni dinliyorum...";
+        } else {
+            mascotIcon.textContent = '🦸‍♂️';
+            mascotBubble.textContent = message || "Hadi bulmacayı çözelim!";
+        }
+
+        if(type !== 'listen') {
+            mascotTimeout = setTimeout(() => {
+                mascotIcon.className = 'mascot-icon';
+                mascotIcon.textContent = '🦸‍♂️';
+                mascotBubble.textContent = "Kutuları doldur veya sesli söyle!";
+            }, 3000);
+        }
+    }
+
+    // Yıldız Partikülleri Efekti
+    function spawnParticles(cells) {
+        cells.forEach(cell => {
+            const rect = cell.getBoundingClientRect();
+            for(let i=0; i<3; i++) {
+                const p = document.createElement('div');
+                p.innerHTML = ['✨', '⭐', '🌟'][Math.floor(Math.random()*3)];
+                p.className = 'sparkle-particle';
+                p.style.setProperty('--tx', (Math.random() * 100 - 50) + 'px');
+                p.style.setProperty('--ty', (Math.random() * -100 - 20) + 'px');
+                p.style.left = '50%';
+                p.style.top = '50%';
+                cell.parentElement.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
+            }
+        });
+    }
 
     function playSound(type) {
         if(audioCtx.state === 'suspended') audioCtx.resume();
@@ -304,7 +357,7 @@
 
     function showToast(message, type) {
         const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
+        toast.className = toast ${type};
         toast.textContent = message;
         toastContainer.appendChild(toast);
         setTimeout(() => toast.classList.add('show'), 10);
@@ -325,40 +378,53 @@
         recognition = new SpeechRecognition();
         recognition.lang = 'tr-TR';
         recognition.continuous = false;
-        recognition.onstart = () => { micBtn.classList.add("listening"); micStatus.textContent = "Dinliyorum... Cevabı söyleyin."; micStatus.style.color = "#ea2b2b"; };
+        recognition.onstart = () => { micBtn.classList.add("listening"); setMascotReaction('listen'); };
         recognition.onresult = (event) => { 
             const transcript = normalizeText(event.results[0][0].transcript).trim(); 
-            micStatus.textContent = `Duyulan: "${transcript}"`; 
-            micStatus.style.color = "#4b4b4b"; 
+            mascotBubble.textContent = Duyulan: "${transcript}"; 
             checkSpokenWord(transcript); 
         };
-        recognition.onerror = () => { micStatus.textContent = "Ses anlaşılamadı. Tekrar deneyin."; };
+        recognition.onerror = () => { setMascotReaction('sad', "Ses anlaşılamadı!"); };
         recognition.onend = () => { micBtn.classList.remove("listening"); };
         micBtn.onclick = () => { if(audioCtx.state === 'suspended') audioCtx.resume(); recognition.start(); };
     } else {
-        micStatus.textContent = "Tarayıcın sesli yanıtı desteklemiyor. Klavyeyi kullanın.";
+        micBtn.style.display = 'none';
     }
 
     function initMapNames() {
         for (let i = 0; i < levels.length; i++) {
-            const nodeDiv = document.getElementById(`node-${i}`);
+            const nodeDiv = document.getElementById(node-${i});
             if(nodeDiv) {
                 const nameDiv = nodeDiv.querySelector('.level-name');
-                if(nameDiv) {
-                    nameDiv.textContent = levels[i].title;
-                }
+                if(nameDiv) nameDiv.textContent = levels[i].title;
             }
         }
     }
 
     function updateMapUI() {
         for (let i = 0; i < levels.length; i++) {
-            const node = document.getElementById(`node-${i}`);
+            const node = document.getElementById(node-${i});
             if(!node) continue;
             node.className = 'level-node'; 
-            if (i < unlockedLevels) { node.classList.add('node-completed'); node.querySelector('span').innerHTML = "✔"; } 
-            else if (i === unlockedLevels) { node.classList.add('node-unlocked'); node.querySelector('span').innerHTML = i + 1; } 
-            else { node.classList.add('node-locked'); node.querySelector('span').innerHTML = "🔒"; }
+            const starDiv = node.querySelector('.node-stars');
+            
+            if (i < unlockedLevels) { 
+                node.classList.add('node-completed'); 
+                node.querySelector('span').innerHTML = "✔"; 
+                // Yıldızları göster
+                const stars = levelStarsData[i] || 3;
+                starDiv.innerHTML = '⭐'.repeat(stars);
+            } 
+            else if (i === unlockedLevels) { 
+                node.classList.add('node-unlocked'); 
+                node.querySelector('span').innerHTML = i + 1; 
+                starDiv.innerHTML = "";
+            } 
+            else { 
+                node.classList.add('node-locked'); 
+                node.querySelector('span').innerHTML = "🔒"; 
+                starDiv.innerHTML = "";
+            }
         }
     }
 
@@ -366,17 +432,19 @@
         if (levelIndex > unlockedLevels) return; 
         currentLevelIndex = levelIndex;
         wordStatusMap = {}; 
+        currentLevelErrors = 0; // Hatayı sıfırla
+        progressBar.style.width = '0%';
         
         mapView.style.display = 'none';
         puzzleView.style.display = 'flex';
-        
         applyCornerDecorations('puzzle-view');
 
         document.getElementById('close-btn').style.display = 'block';
-        headerTitle.textContent = (currentLevelIndex + 1) + ". " + levels[currentLevelIndex].title;
+        headerTitle.textContent = "✨ " + levels[currentLevelIndex].title;
         nextMapBtn.style.display = 'none';
-        micBtn.style.display = 'flex';
-        micStatus.textContent = "Kutuları doldur veya mikrofona cevabı söyle!";
+        
+        if (SpeechRecognition) micBtn.style.display = 'flex';
+        setMascotReaction('idle', "Hadi başlayalım!");
         
         buildCrossword();
     }
@@ -385,8 +453,7 @@
         puzzleView.style.display = 'none'; 
         mapView.style.display = 'flex'; 
         document.getElementById('close-btn').style.display = 'none'; 
-        headerTitle.textContent = "Barbaros'un Macerası: 6. Sınıf"; 
-        
+        headerTitle.textContent = "🗺️ Barbaros'un Macerası"; 
         applyCornerDecorations('map-view');
         updateMapUI();
     }
@@ -394,7 +461,7 @@
     function buildCrossword() {
         const levelData = levels[currentLevelIndex];
         const size = levelData.gridSize;
-        gridContainer.style.gridTemplateColumns = `repeat(${size}, 30px)`;
+        gridContainer.style.gridTemplateColumns = repeat(${size}, 1fr); 
         gridContainer.innerHTML = '';
         gridMap = Array(size).fill(null).map(() => Array(size).fill(null));
 
@@ -444,7 +511,7 @@
         document.getElementById('across-clues').innerHTML = '<strong>Soldan Sağa ➡️</strong>';
         document.getElementById('down-clues').innerHTML = '<strong>Yukarıdan Aşağıya ⬇️</strong>';
         levelData.words.forEach(item => {
-            const li = document.createElement('li'); li.innerHTML = `<span class="clue-num">${item.id}.</span> <span>${item.clue}</span>`;
+            const li = document.createElement('li'); li.innerHTML = <span class="clue-num">${item.id}</span> <span>${item.clue}</span>;
             if (item.dir === 'H') document.getElementById('across-clues').appendChild(li); else document.getElementById('down-clues').appendChild(li);
         });
         evaluateBoard(true); 
@@ -463,7 +530,8 @@
             });
             evaluateBoard();
         } else {
-            showToast(`Söylediğin "${spokenWord}" kelimesi bu bulmacada yok!`, "error");
+            setMascotReaction('sad', Bulmacada "${spokenWord}" yok!);
+            currentLevelErrors++; // Hatayı artır
             playSound('wrong');
         }
     }
@@ -473,12 +541,11 @@
         const levelData = levels[currentLevelIndex];
         
         allInputs.forEach(cell => {
-            if (!cell.classList.contains('hint-cell')) {
-                cell.classList.remove('correct', 'wrong');
-            }
+            if (!cell.classList.contains('hint-cell')) cell.classList.remove('correct', 'wrong');
         });
 
         let allWordsCorrect = true;
+        let correctWordsCount = 0;
 
         levelData.words.forEach(item => {
             let typedWord = "";
@@ -498,6 +565,7 @@
 
             if (isFilled) {
                 if (typedWord === normalizeText(item.word)) {
+                    correctWordsCount++;
                     wordCells.forEach(cell => {
                         if (!cell.classList.contains('hint-cell')) cell.classList.add('correct');
                         cell.classList.remove('wrong');
@@ -506,21 +574,21 @@
                     if (wordStatusMap[item.id] !== 'correct') {
                         wordStatusMap[item.id] = 'correct';
                         if (!isInitial) {
-                            showToast(`Harika! ${item.word} doğru cevap.`, 'success');
+                            spawnParticles(wordCells);
+                            setMascotReaction('happy', ${item.word} harika!);
                             playSound('correct');
                         }
                     }
                 } else {
                     wordCells.forEach(cell => {
-                        if (!cell.classList.contains('hint-cell') && !cell.classList.contains('correct')) {
-                            cell.classList.add('wrong');
-                        }
+                        if (!cell.classList.contains('hint-cell') && !cell.classList.contains('correct')) cell.classList.add('wrong');
                     });
                     
                     if (wordStatusMap[item.id] !== 'wrong') {
                         wordStatusMap[item.id] = 'wrong';
                         if (!isInitial) {
-                            showToast(`Hatalı kelime! Lütfen kırmızı kutuları düzelt.`, 'error');
+                            setMascotReaction('sad', "Kırmızıları düzelt!");
+                            currentLevelErrors++; // Hata artır
                             playSound('wrong');
                         }
                     }
@@ -532,12 +600,24 @@
             }
         });
 
+        // İlerleme çubuğunu güncelle
+        const progressPercent = (correctWordsCount / levelData.words.length) * 100;
+        progressBar.style.width = progressPercent + '%';
+
         if (allWordsCorrect && !isInitial) {
             playSound('win'); 
-            micStatus.textContent = "🎉 Harita Tamamlandı! Diğer bölgeye geçebiliriz! 🎉"; 
-            micBtn.style.display = 'none'; 
+            
+            // Yıldız Hesaplama Mantığı (0 hata=3, 1-2 hata=2, 3+ hata=1)
+            let earnedStars = 3;
+            if(currentLevelErrors > 0 && currentLevelErrors <= 2) earnedStars = 2;
+            else if(currentLevelErrors > 2) earnedStars = 1;
+            levelStarsData[currentLevelIndex] = earnedStars;
+
+            setMascotReaction('happy', Bölüm bitti! ${earnedStars} Yıldız aldın!);
+            if(micBtn) micBtn.style.display = 'none'; 
             nextMapBtn.style.display = 'block';
-            if (currentLevelIndex === levels.length - 1) nextMapBtn.textContent = "Sertifikanı Al! 🏆"; else nextMapBtn.textContent = "Haritaya Dön & İlerle";
+            if (currentLevelIndex === levels.length - 1) nextMapBtn.textContent = "Sertifikanı Al! 🏆"; 
+            else nextMapBtn.textContent = "Haritaya Dön & İlerle";
         } else {
             nextMapBtn.style.display = 'none';
         }
@@ -549,17 +629,16 @@
     }
 
     function showCertificate() {
-        document.getElementById('close-btn').style.display = 'none'; puzzleView.style.display = 'none'; mapView.style.display = 'none'; certView.style.display = 'flex'; headerTitle.textContent = "Zafer!"; createConfetti();
+        document.getElementById('close-btn').style.display = 'none'; puzzleView.style.display = 'none'; mapView.style.display = 'none'; certView.style.display = 'flex'; headerTitle.textContent = "🏆 Büyük Zafer!"; createConfetti();
     }
 
     function createConfetti() {
-        const colors = ['#f5a623', '#58cc02', '#1cb0f6', '#ff4b4b', '#fff'];
+        const colors = ['#f5a623', '#58cc02', '#1cb0f6', '#ff4b4b', '#e0c3fc', '#8ec5fc'];
         for (let i = 0; i < 150; i++) {
             let conf = document.createElement('div'); conf.classList.add('confetti'); conf.style.left = Math.random() * 100 + 'vw'; conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; conf.style.animationDuration = (Math.random() * 3 + 2) + 's'; conf.style.animationDelay = (Math.random() * 2) + 's'; certView.appendChild(conf);
         }
     }
 
-    // İlk açılışta harita isimlerini ata ve süslemeleri uygula
     window.addEventListener('DOMContentLoaded', () => {
         initMapNames();
         applyCornerDecorations('map-view');
